@@ -7,6 +7,16 @@ const getAllTodo = async(req, res)=>{
     res.status(200).json({getTodo, todoCount: getTodo.length});
 }
 
+const getTodo = async(req, res) => {
+    const {id} = req.params;
+    const todo = await Todo.findOne({_id: id});
+    if(!todo){
+        throw new BadRequest('Todo not found!');
+    }
+
+    res.status(200).json({ todo });
+}
+
 const createTodo = async(req, res)=>{
     const {name} = req.body;
     if(!name){
@@ -51,6 +61,7 @@ const deleteTodo = async(req, res)=>{
 
 module.exports = {
     getAllTodo,
+    getTodo,
     createTodo,
     updateTodo,
     deleteTodo
