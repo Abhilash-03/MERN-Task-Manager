@@ -3,9 +3,10 @@ require('express-async-errors');
 const express = require('express');
 const connectDB = require('./db/connectDB');
 const mainRouters = require('./routes/todoRoute');
-const registerRouter = require('./routes/authRoute');
+const authRouter = require('./routes/authRoute');
 const notFound = require('./middlewares/notFound');
 const errorHandler = require('./middlewares/errorHandler');
+const authenticated = require('./middlewares/authentication');
 const app = express();
 
 // Middlewares
@@ -18,8 +19,8 @@ app.get('/', (req, res) => {
 })
 
 // Routes
-app.use('/api/v1/todos', mainRouters);
-app.use('/api/v1/auth', registerRouter);
+app.use('/api/v1/auth', authRouter);
+app.use('/api/v1/todos', authenticated, mainRouters);
 
 app.use(notFound);
 app.use(errorHandler);
