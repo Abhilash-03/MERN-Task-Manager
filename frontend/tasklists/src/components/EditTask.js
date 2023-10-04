@@ -5,7 +5,7 @@ function EditTask({ taskDetails, handleUpdate, editTask, setEditTask, completed,
      {
         taskDetails.map(task => (
           
-            <div key={task._id} className="editBody card m-auto mt-3 border border-primary bg-dark bg-opacity-10">
+            <div key={task._id} className="editBody card m-auto mt-3">
                 <div className="card-body fs-5">
                     <p className="task-id">TaskId: <span>{task._id}</span></p>
                     <p className="card-text">Name: <span className="text-capitalize">

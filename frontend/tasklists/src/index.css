@@ -1,7 +1,19 @@
+@import url('https://fonts.googleapis.com/css2?family=Martian+Mono&family=Merriweather&family=Roboto&display=swap');
+
 *{
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+h1,h2,h3,h4,h5,h6, p, span, button{
+  font-family: 'Martian Mono', monospace;
+  /* font-family: 'Merriweather', serif; */
+
+}
+
+body{
+  background: rgb(241, 241, 241);
 }
 
 .nav-link{
@@ -24,16 +36,21 @@
 
 li{
   list-style-type: none;
+  font-family: 'Merriweather', serif;
+  /* font-family: 'Martian Mono', monospace; */
+  font-size: 18px;
 }
 
 .lists li:hover{
-  box-shadow: 2px 3px 19px black;
-  background: rgba(206, 206, 255, 0.756);
+  box-shadow: 2px 3px 25px black;
+  background: rgba(243, 243, 243, 0.756);
+  border: 2px solid black !important;
 }
 
-input[type="text"]:hover, input[type="text"]:focus{
-  box-shadow: 2px 3px 13px black;
-  background: rgb(236, 236, 236);
+input:hover, input:focus{
+  box-shadow: 2px 3px 13px black !important;
+  background: rgb(236, 236, 236) !important;
+
 }
 
 .navlist ul li:hover, .navlist ul li:focus{
@@ -47,7 +64,44 @@ form, .lists{
   
 }
 
-.items .card{
-  min-width: 200px ;
-  max-width: 650px ;
+
+.items .dtlBody, .editBody, .registerform, .loginForm{
+  min-width: 300px;
+  max-width: 650px;
+  border-radius: 0;
+  box-shadow: 3px 3px 20px black;
+  padding: 1rem;
+ background-color: white;
+
+}
+
+.editBody input{
+  outline: none;
+}
+
+button{
+  background-color: black !important;
+  color: white !important;
+  border-radius: 0 !important;
+  border: 2px solid black !important;
+}
+
+.todoBox{
+  box-shadow: 3px 3px 20px black;
+  padding: 2rem;
+}
+
+input{
+  border: 1px solid black !important;
+  border-radius: 0 !important;
+
+}
+
+.lists{
+  padding: 2rem 0;
+}
+
+.lists li{
+  margin: auto;
+  box-shadow: 3px 3px 20px gray;
 }
