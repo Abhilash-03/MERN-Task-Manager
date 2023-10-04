@@ -43,6 +43,9 @@ const login = async(req, res) => {
     // create token
     const token = user.jwtCreate();
 
+    user.accessToken = token;
+    await user.save();
+
     res.status(200).json({user: {username: user.username}, token});
 
 }

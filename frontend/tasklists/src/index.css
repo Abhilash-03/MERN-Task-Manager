@@ -1,0 +1,53 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.nav-link{
+  color: white;
+  font-size: 1.2rem;
+
+}
+
+.nav-link:focus, .nav-link:hover{
+  color: red;
+}
+
+.navlist ul li{
+  margin: 0 5px;
+}
+
+.checked{
+  text-decoration: line-through 2px red;
+}
+
+li{
+  list-style-type: none;
+}
+
+.lists li:hover{
+  box-shadow: 2px 3px 19px black;
+  background: rgba(206, 206, 255, 0.756);
+}
+
+input[type="text"]:hover, input[type="text"]:focus{
+  box-shadow: 2px 3px 13px black;
+  background: rgb(236, 236, 236);
+}
+
+.navlist ul li:hover, .navlist ul li:focus{
+  background-color: whitesmoke;
+}
+
+form, .lists{
+  min-width: 200px;
+  max-width: 650px;
+  margin: 0 10px;
+  
+}
+
+.items .card{
+  min-width: 200px ;
+  max-width: 650px ;
+}

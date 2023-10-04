@@ -24,6 +24,8 @@ const userSchema = new mongoose.Schema({
         minlength: 6
     },
 
+    accessToken: String
+
 })
 
 userSchema.methods.jwtCreate =  function(){
