@@ -118,3 +118,19 @@ input{
   100%{color: black;}
   
 }
+
+.logoutBtn{
+  background-color: red !important;
+  border-radius: 5px;
+  font-size: 17px;
+  border: 2px solid white;
+  font-weight: bold;
+}
+
+.done{
+  color: crimson;
+}
+
+.done .name{
+  text-decoration: line-through 2px blueviolet;
+}

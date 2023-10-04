@@ -20,7 +20,6 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
-
   const showTask = async() => {
         setIsLoading(true);
     try {
@@ -37,14 +36,23 @@ function App() {
        console.log(error);
        setIsLoading(false);
        setErrMsg(`${error.response.statusText}(${error.response.status})`);
+       if(error.response.status === 401){
+        setTimeout(() => {
+          navigate('/login')
+        }, 3000);
+       }
        setTimeout(() => {
         setErrMsg('');
        }, 2500);
+
+
     }
  }
 
  useEffect(()=> {
-   showTask();
+  !localStorage.getItem('token') ? <h5>Please Sign-up or Login to use this app.</h5>
+   : showTask();
+
    // eslint-disable-next-line
  }, [])
 
@@ -151,9 +159,19 @@ function App() {
     }
   }
 
+  const handleLogout = ()=>{
+    try{
+      localStorage.removeItem('token');
+      window.location.reload();
+        navigate('/login')
+    } catch(error){
+      console.log(error);
+    }
+  }
+
   return (
     <main className="app">
-      <Navbar />
+      <Navbar handleLogout={handleLogout}/>
         <Routes>
           <Route index element={<Todo
              task={task}

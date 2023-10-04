@@ -18,7 +18,7 @@ function Login() {
             localStorage.setItem('token', resp.data.token);
             setTimeout(() => {
             navigate('/');
-                
+            window.location.reload();    
             }, 3000);
 
         }catch(err){

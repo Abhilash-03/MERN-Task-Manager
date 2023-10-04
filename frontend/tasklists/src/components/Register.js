@@ -7,6 +7,7 @@ const [username, setUsername] = useState('');
 const [email, setEmail] = useState('');
 const [password, setPassword] = useState('');
 const [msg, setMsg] = useState('');
+const [err, setErr] = useState('');
 const navigate = useNavigate();
   
 const handleSubmit = async(e)=>{
@@ -21,14 +22,22 @@ const handleSubmit = async(e)=>{
       setMsg('');
      navigate('/login');
       
-     }, 1200);
+     }, 4000);
 
   } catch(err){
     console.log(err);
+    setErr(err.response.data.msg)
+    setTimeout(() => {
+      setErr('');
+    }, 4000);
   }
 }
 
   return (
+    <>
+       <div className={err === ''? 'd-none': 'd-block alert alert-danger alert-dismissible fade show'} role="alert">
+        <strong>Error: </strong> {err}
+  </div>
     <form className="registerform form w-50 m-auto mt-4" onSubmit={handleSubmit}>
       <h5 className='text-success fw-bold text-center'>{msg}</h5>
       <h2 className="p-3 text-center">Register Form</h2>
@@ -50,6 +59,7 @@ const handleSubmit = async(e)=>{
   </div>
 
   </form>
+  </>
   )
 }
 
