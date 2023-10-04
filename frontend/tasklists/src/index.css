@@ -6,9 +6,9 @@
   box-sizing: border-box;
 }
 
-h1,h2,h3,h4,h5,h6, p, span, button{
-  font-family: 'Martian Mono', monospace;
-  /* font-family: 'Merriweather', serif; */
+h1,h2,h3,h4,h5,h6, button{
+  /* font-family: 'Martian Mono', monospace; */
+  font-family: 'Merriweather', serif;
 
 }
 
@@ -34,10 +34,10 @@ body{
   text-decoration: line-through 2px red;
 }
 
-li{
+li, p, span{
   list-style-type: none;
-  font-family: 'Merriweather', serif;
-  /* font-family: 'Martian Mono', monospace; */
+  /* font-family: 'Merriweather', serif; */
+  font-family: 'Martian Mono', monospace;
   font-size: 18px;
 }
 
@@ -83,17 +83,19 @@ button{
   background-color: black !important;
   color: white !important;
   border-radius: 0 !important;
-  border: 2px solid black !important;
 }
 
 .todoBox{
   box-shadow: 3px 3px 20px black;
   padding: 2rem;
+  background-color: white;
 }
 
 input{
   border: 1px solid black !important;
   border-radius: 0 !important;
+  font-family: 'Martian Mono', monospace;
+
 
 }
 
@@ -104,4 +106,15 @@ input{
 .lists li{
   margin: auto;
   box-shadow: 3px 3px 20px gray;
+}
+
+.loading{
+  animation: loader 1.4s linear infinite;
+}
+
+@keyframes loader {
+  0%{color: blue;}
+  50%{color: red; transform: scale(.9);}
+  100%{color: black;}
+  
 }

@@ -13,7 +13,6 @@ const handleSubmit = async(e)=>{
   e.preventDefault()
   console.log("Form Submitted...");
   const newUser = {username, email, password};
-  console.log(newUser);
   try{
      await api.post('/auth/register', newUser);
      setMsg('New User Registered!!')

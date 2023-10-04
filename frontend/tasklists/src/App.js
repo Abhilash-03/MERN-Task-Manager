@@ -16,11 +16,13 @@ function App() {
   const [checked, setChecked] = useState(false);
   const [allTasks, setAllTasks] = useState([]);
   const [msg, setMsg] = useState('');
+  const [errMsg, setErrMsg] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
 
   const showTask = async() => {
-        
+        setIsLoading(true);
     try {
       const response = await api.get('/todos', {
         headers:{
@@ -29,9 +31,15 @@ function App() {
       })
       const data = response.data.getTodo;
       setAllTasks([...data]);
+      setIsLoading(false);
 
     } catch (error) {
        console.log(error);
+       setIsLoading(false);
+       setErrMsg(`${error.response.statusText}(${error.response.status})`);
+       setTimeout(() => {
+        setErrMsg('');
+       }, 2500);
     }
  }
 
@@ -62,6 +70,14 @@ function App() {
         showTask();
       } catch(error){
         console.log(error);
+        if(error.response.status === 401){
+          setErrMsg("You're not logged-in. Please login or register.");
+        }
+
+        setTimeout(() => {
+          setErrMsg('');
+          navigate('/login')
+        }, 4000);
       }
      
   }
@@ -129,6 +145,7 @@ function App() {
       const data = response.data.todo;
       setTaskDetails([data]);
       setEditTask(data.name);
+      setChecked(data.completed);
     } catch (error) {
       console.log(error);
     }
@@ -145,6 +162,8 @@ function App() {
              handleChange={handleChange}
              handleGetTask = {handleGetTask}
              msg={msg}
+             errMsg={errMsg}
+             isLoading={isLoading}
           />} />
           <Route exact path="/tasks/:id" element={<Item taskDetails={taskDetails} handleDelete={handleDelete}  msg={msg} />} />
           <Route exact path="/todos/:id" element={<EditTask editTask={editTask} setEditTask={setEditTask} taskDetails={taskDetails} handleUpdate={handleUpdate} completed={checked} setCompleted={setChecked} msg={msg} />}/>
