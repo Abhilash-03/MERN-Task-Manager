@@ -20,6 +20,7 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
+
   const showTask = async() => {
         setIsLoading(true);
     try {
@@ -28,6 +29,7 @@ function App() {
          Authorization: `Bearer ${token}`
         }
       })
+      console.log(response.data)
       const data = response.data.getTodo;
       setAllTasks([...data]);
       setIsLoading(false);
@@ -53,7 +55,7 @@ function App() {
   !localStorage.getItem('token') ? <h5>Please Sign-up or Login to use this app.</h5>
    : showTask();
 
-   // eslint-disable-next-line
+  //  eslint-disable-next-line
  }, [])
 
 
