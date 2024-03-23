@@ -1,136 +1,25 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 @import url('https://fonts.googleapis.com/css2?family=Martian+Mono&family=Merriweather&family=Roboto&display=swap');
 
-*{
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+::-webkit-scrollbar{
+  background-color: rgb(110, 110, 239);
+  border-radius: 12px;
+  width: 13px;
 }
 
-h1,h2,h3,h4,h5,h6, button{
-  /* font-family: 'Martian Mono', monospace; */
-  font-family: 'Merriweather', serif;
-
+::-webkit-scrollbar-thumb{
+    background-color: rgb(191, 159, 254);
 }
 
-body{
-  background: rgb(241, 241, 241);
+.ul-items::-webkit-scrollbar{
+  background-color: rgb(110, 110, 239);
+  border-radius: 8px;
+  width: 10px;
 }
 
-.nav-link{
-  color: white;
-  font-size: 1.2rem;
-
-}
-
-.nav-link:focus, .nav-link:hover{
-  color: red;
-}
-
-.navlist ul li{
-  margin: 0 5px;
-}
-
-.checked{
-  text-decoration: line-through 2px red;
-}
-
-li, p, span{
-  list-style-type: none;
-  /* font-family: 'Merriweather', serif; */
-  font-family: 'Martian Mono', monospace;
-  font-size: 18px;
-}
-
-.lists li:hover{
-  box-shadow: 2px 3px 25px black;
-  background: rgba(243, 243, 243, 0.756);
-  border: 2px solid black !important;
-}
-
-input:hover, input:focus{
-  box-shadow: 2px 3px 13px black !important;
-  background: rgb(236, 236, 236) !important;
-
-}
-
-.navlist ul li:hover, .navlist ul li:focus{
-  background-color: whitesmoke;
-}
-
-form, .lists{
-  min-width: 200px;
-  max-width: 650px;
-  margin: 0 10px;
-  
-}
-
-
-.items .dtlBody, .editBody, .registerform, .loginForm{
-  min-width: 300px;
-  max-width: 650px;
-  border-radius: 0;
-  box-shadow: 3px 3px 20px black;
-  padding: 1rem;
- background-color: white;
-
-}
-
-.editBody input{
-  outline: none;
-}
-
-button{
-  background-color: black !important;
-  color: white !important;
-  border-radius: 0 !important;
-}
-
-.todoBox{
-  box-shadow: 3px 3px 20px black;
-  padding: 2rem;
-  background-color: white;
-}
-
-input{
-  border: 1px solid black !important;
-  border-radius: 0 !important;
-  font-family: 'Martian Mono', monospace;
-
-
-}
-
-.lists{
-  padding: 2rem 0;
-}
-
-.lists li{
-  margin: auto;
-  box-shadow: 3px 3px 20px gray;
-}
-
-.loading{
-  animation: loader 1.4s linear infinite;
-}
-
-@keyframes loader {
-  0%{color: blue;}
-  50%{color: red; transform: scale(.9);}
-  100%{color: black;}
-  
-}
-
-.logoutBtn{
-  background-color: red !important;
-  border-radius: 5px;
-  font-size: 17px;
-  border: 2px solid white;
-  font-weight: bold;
-}
-
-.done{
-  color: crimson;
-}
-
-.done .name{
-  text-decoration: line-through 2px blueviolet;
+.ul-items::-webkit-scrollbar-thumb{
+    background-color: rgb(191, 159, 254);
 }

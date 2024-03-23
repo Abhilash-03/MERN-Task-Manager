@@ -1,6 +1,10 @@
 import axios from "axios";
 
 export default axios.create({
-    baseURL: 'https://todo-lists-api.vercel.app/api/v1'
+    baseURL: 'http://localhost:5000',
+    withCredentials: true
+    // proxy: {
+    //   host: 'http://localhost:5000',
+    // }
   
 })

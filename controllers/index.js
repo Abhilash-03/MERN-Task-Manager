@@ -27,7 +27,7 @@ const createTodo = async(req, res)=>{
     req.body.createdBy = req.user.userId;
   
     const todoList =  await Todo.create(req.body);
-    res.status(201).json({todoList, msg: 'Item Created Successfully!!'});
+    res.status(201).json({todoList, msg: 'Todo Created Successfully!!'});
 }
 
 const updateTodo = async(req, res)=>{
@@ -45,10 +45,10 @@ const updateTodo = async(req, res)=>{
     });
 
      if(!updateData){
-        return res.status(400).json({msg: `No Data found with id: ${todoID}`})
+        return res.status(400).json({msg: `Todo not found`})
      }
 
-    res.status(200).json({updateData, msg: 'Item Updated Successfully!!'});
+    res.status(200).json({updateData, msg: 'Todo Updated Successfully!!'});
 }
 
 const deleteTodo = async(req, res)=>{
@@ -56,12 +56,31 @@ const deleteTodo = async(req, res)=>{
    
     // Search for a task which matches the taskId and userId and then delete it.
         const delTodo = await Todo.findOneAndDelete({_id: todoID, createdBy: userId});
-
         if(!delTodo){
-            return res.status(400).json({msg: `No Data found with id: ${todoID}`});
+            return res.status(400).json({msg: `Todo not found`});
         }
 
-        res.status(200).json({delTodo, msg: 'Item Deleted Successfully!!'});
+        res.status(200).json({delTodo, msg: 'Todo Deleted Successfully!!'});
+
+}
+
+const favouriteTodo = async(req, res) => {
+    const {params: {id: todoID}, user: {userId}} = req;
+
+    const favourite = await Todo.findOneAndUpdate({_id: todoID, createdBy: userId}, {
+        $set: {
+            favourite: req.body.favourite
+        }
+    }, {
+        new: true,
+        runValidators: true
+    });
+    if(!favourite) {
+        return res.status(400).json({msg: `Todo not found`});
+    }
+
+    res.status(200).json({ favourite, msg: 'Added as a favourite' });
+
 
 }
 
@@ -70,5 +89,6 @@ module.exports = {
     getTodo,
     createTodo,
     updateTodo,
-    deleteTodo
+    deleteTodo,
+    favouriteTodo
 }

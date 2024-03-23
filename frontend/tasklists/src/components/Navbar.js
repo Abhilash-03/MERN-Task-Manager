@@ -1,30 +1,122 @@
-import { Link } from "react-router-dom"
+import { Avatar, Button, Dropdown, Navbar, Toast } from 'flowbite-react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { MdDarkMode, MdLightMode } from "react-icons/md";
+import { toggleTheme } from '../redux/theme/themeSlice';
+import api from '../axios/axios'
+import { logoutSuccess } from '../redux/user/userSlice';
+import { useState } from 'react';
+import { HiCheck, HiLogin, HiLogout } from 'react-icons/hi';
 
-function Navbar({handleLogout}) {
-  return (
-    <div className="navlist">
-      <ul className="nav nav-tabs bg-dark nav-dark">
-  <li className="nav-item">
-    <Link className="nav-link" aria-current="page" to="/">Home</Link>
-  </li>
-  {
-    !localStorage.getItem('token') ?
-    <form className="d-flex">
-    <li className="nav-item">
-    <Link className="nav-link" to="/register">Sing-up</Link>
-  </li>
-  <li className="nav-item">
-    <Link className="nav-link" to="/login">Login</Link>
-  </li> 
-  </form>
-  : <button onClick={handleLogout} className="btn btn-primary logoutBtn">Logout</button>
+const customTheme = {
+  content: "py-1 focus:outline-none dark:bg-slate-800 dark:text-red-500 rounded-md",
+  link: {
+    active: {
+      on: "bg-indigo-500 text-gray-200 dark:text-white md:bg-transparent md:text-indigo-700"
+    }
   }
-  
-
-
-</ul>
-    </div>
-  )
 }
 
-export default Navbar
+const Header = () => {
+  const {currentUser} = useSelector(state => state.user);
+  const {theme} = useSelector(state => state.theme);
+ const dispatch = useDispatch();
+ const [message, setMessage] = useState('');
+ const navigate = useNavigate();
+ const location = useLocation();
+ const path = location.pathname;
+
+ const handleLogout = async() => {
+  try {
+    const response = await api.post('/api/v1/auth/logout');
+    dispatch(logoutSuccess())
+    setMessage(response?.data?.msg);
+    navigate('/login');
+
+  } catch (error) {
+     console.log(error.response?.data?.msg);
+  }
+ }
+ setTimeout(() => {
+  setMessage('');
+ }, 3000)
+
+  return (
+    <>
+    { message &&
+      <Toast className='absolute z-20 top-20 left-1/3'>
+      <div className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-green-100 text-green-500 dark:bg-green-800 dark:text-green-200">
+        <HiCheck className="h-5 w-5" />
+      </div>
+      <div className="ml-3 text-sm font-semibold font-tf">{message}</div>
+      <Toast.Toggle />
+    </Toast>
+  }
+    <Navbar fluid className='bg-[#c8c9f4ae] text-gray-800 sticky top-0 z-10' theme={customTheme}>
+      <Link to={'/'}>
+      <Navbar.Brand as={'div'}>
+        <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-[#9ab9ef] sm:text-2xl md:text-4xl font-serif ">Task Manager</span>
+      </Navbar.Brand>
+      </Link>
+      <div className="flex items-center mx-4 space-x-4 md:order-2">
+        <div className='rounded-full bg-blue-400 p-1 cursor-pointer'  onClick={() => dispatch(toggleTheme())}>
+        { theme === 'light' ?
+        <MdDarkMode className='h-7 w-7' />
+        : <MdLightMode className='h-7 w-7' />
+       }
+        </div>
+   { currentUser ?
+        <Dropdown
+          arrowIcon={false}
+          theme={customTheme}
+          inline
+          label={
+            <Avatar alt="User settings" img="https://toppng.com//public/uploads/preview/circled-user-icon-user-pro-icon-11553397069rpnu1bqqup.png" rounded />
+          }
+        >
+          
+          <Dropdown.Header>
+            <span className="block text-sm font-semibold font-serif">{currentUser?.username}</span>
+            <span className="block truncate text-sm font-semibold font-serif">{currentUser?.email}</span>
+          </Dropdown.Header>
+          {/* <Dropdown.Item className="text-sm font-semibold font-serif"><HiUser className="mr-2 h-5 w-5" />Profile</Dropdown.Item> */}
+          <Dropdown.Divider />
+          <Dropdown.Item className="text-sm font-semibold font-serif" onClick={handleLogout}><HiLogout className="mr-2 h-5 w-5" />Sign out</Dropdown.Item>
+        </Dropdown>
+        : (
+          <Link to={'/login'}>
+            <Button gradientDuoTone="purpleToBlue" pill> <HiLogin className="mr-2 h-5 w-5" /> SignIn</Button>
+          </Link>
+        )
+        }
+        <Navbar.Toggle />
+      </div>
+      <Navbar.Collapse>
+        <Link to='/'>
+        <Navbar.Link active={path === '/' ? true: false} className='text-lg font-semibold font-tf' as={'div'}>
+          Home
+        </Navbar.Link>
+        </Link>
+        <Link to='/create'>
+        <Navbar.Link active={path === '/create' ? true: false} className='text-lg font-semibold font-tf' as={'div'}>
+          Create
+        </Navbar.Link>
+        </Link>
+        <Link to='/lists'>
+        <Navbar.Link active={path === '/lists' ? true: false} className='text-lg font-semibold font-tf' as={'div'}>
+          Lists
+        </Navbar.Link>
+        </Link>
+        {/* <Link to='/restore'>
+        <Navbar.Link className='text-lg font-semibold font-tf' as={'div'}>
+          Restore/Delete
+        </Navbar.Link>
+        </Link> */}
+      
+      </Navbar.Collapse>
+    </Navbar>
+    </>
+  );
+}
+
+export default Header;

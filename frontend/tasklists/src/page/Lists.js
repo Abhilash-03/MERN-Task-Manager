@@ -1,0 +1,121 @@
+import { Alert, Button, Toast } from 'flowbite-react';
+import React, { useCallback, useEffect, useState } from 'react'
+import { HiCheck, HiInformationCircle } from 'react-icons/hi';
+import { useDispatch, useSelector } from 'react-redux'
+import {  filterTodo, getTodoFailure, getTodos } from '../redux/todo/todoSlice';
+import { Link, useNavigate } from 'react-router-dom';
+import api from '../axios/axios'
+import Cards from '../components/Cards';
+import { MdCreateNewFolder, MdOutlinePendingActions } from "react-icons/md";
+import { FaCheck, FaHeart, FaLeaf } from 'react-icons/fa';
+const costumeTheme = {
+  base: "flex md:max-w-xl max-w-md items-center rounded-lg md:p-4 p-1 text-gray-500 shadow dark:text-gray-400",
+}
+
+const Lists = () => {
+    const { lists, error, filteredTodo } = useSelector(state => state.todo);
+    const { currentUser } = useSelector(state => state.user);
+    const [message, setMessage] = useState('');
+    const dispatch = useDispatch();
+    const navigate = useNavigate()
+    const [filterName, setFilterName] = useState('all');
+
+    const handleGetTodos = useCallback(() => {
+      dispatch(getTodoFailure(null))
+      const getAllItems = async() => {
+        setTimeout(() => {
+          if(currentUser === null) {
+            navigate('/login')
+          }
+        }, 1000)
+        try {
+          const res = await api.get('/api/v1/todos');
+          if(res.status === 200){
+            dispatch(getTodos(res?.data?.getTodo));
+          } else{
+            dispatch(getTodoFailure(res?.data.msg))
+          }
+          
+        } catch (error) {
+          dispatch(getTodoFailure(error.res?.data.msg))
+        }
+      }
+  
+      getAllItems();
+    }, [dispatch, currentUser, navigate])
+
+    
+    const filterTodos = (type) => {
+      dispatch(filterTodo({ type }))
+      setFilterName(type);
+    }
+
+    useEffect(() => {
+      handleGetTodos();
+    }, [handleGetTodos])
+
+    
+  return (
+    <>
+    {error &&  <Alert color="failure" icon={HiInformationCircle} className='font-semibold font-serif'>
+    <span className="font-semibold font-tf">Info alert!</span> {error.name}.
+  </Alert>}
+    <h1 className='font-tf md:text-5xl text-4xl font-bold text-center mt-2 text-purple-800 dark:text-purple-500'>{lists.length > 1 ? "Lists" : "List"} [{lists.length}]</h1>
+    <h1 className=' text-4xl font-bold capitalize font-serif text-center mt-2 text-indigo-500'>[{filterName}({filteredTodo.length})]</h1>
+    <Button.Group className='flex justify-center mt-10 font-tf font-semibold'>
+      <Button color="purple" onClick={() => filterTodos('all')}>
+        <FaLeaf className="mr-3 h-4 w-4" />
+        All
+      </Button>
+      <Button color="purple" onClick={() => filterTodos('pending')}>
+        <MdOutlinePendingActions className="mr-3 h-4 w-4" />
+        Pending
+      </Button>
+      <Button color="purple" onClick={() => filterTodos('completed')}>
+        <FaCheck className="mr-3 h-4 w-4" />
+        Completed
+      </Button>
+      <Button color="purple" onClick={() => filterTodos('favourite')}>
+        <FaHeart className="mr-3 h-4 w-4" />
+        Favourite
+      </Button>
+    </Button.Group>
+  { message &&
+      <Toast className='mx-auto' theme={costumeTheme}>
+      <div className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-green-100 text-green-500 dark:bg-green-800 dark:text-green-200">
+        <HiCheck className="h-5 w-5" />
+      </div>
+      <div className="ml-3 text-sm font-semibold font-tf text-green-400">{message}</div>
+      <Toast.Toggle />
+    </Toast>
+  }
+    <section className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mx-5 my-10'>
+      {filterName === 'all'?
+         lists.map(todo => (
+          <Cards key={todo._id} todo={todo} setMessage={setMessage} handleGetTodos={handleGetTodos} />
+          
+        ))
+        :
+        filteredTodo.map(todo => (
+        <Cards key={todo._id} todo={todo} setMessage={setMessage} handleGetTodos={handleGetTodos} />
+        ))
+      }
+
+    </section>
+    {
+      lists.length === 0 && (
+        <div className='flex items-center justify-center  bg-[#7c7ced] sm:w-2/4 w-full mx-auto py-4 flex-col shadow-shd dark:shadow-lg dark:shadow-white'>
+        <h1 className='sm:text-2xl text-base font-bold font-tf flex items-center justify-center p-3 text-gray-800'>Todo list is empty, create a new one.</h1>
+        <Link to={'/create'}>
+        <Button  gradientMonochrome="purple" className='my-4 font-tf font-bold' size={'lg'} pill>
+          <MdCreateNewFolder className="mr-2 h-5 w-5" />
+        Create</Button>
+        </Link>
+        </div>
+      )
+    }
+    </>
+  )
+}
+
+export default Lists
