@@ -12,8 +12,15 @@ const cors = require('cors');
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+const options = {
+  origin: 'https://todolist-views.vercel.app',
+  methods: ['GET', 'POST', 'PATCH', 'DELETE'], 
+  allowedHeaders: ['Content-Type', 'Authorization'], 
+  credentials: true 
+}
+
 // Middlewares
-app.use(cors({origin: 'http://localhost:3000', credentials: true}));
+app.use(cors(options));
 app.use(express.json());
 app.use(cookieParser())
 
