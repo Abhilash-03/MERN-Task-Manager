@@ -1,5 +1,5 @@
 import { Alert, TextInput, Toast } from 'flowbite-react'
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { IoMdAddCircleOutline } from "react-icons/io";
 import TodoList from '../components/TodoList';
 import { useDispatch, useSelector } from 'react-redux';
@@ -14,7 +14,7 @@ const customTheme = {
         },
     input: {
         sizes: {
-            lg: "sm:text-xl p-4 font-semibold font-tf rounded-full"
+            lg: "sm:text-xl p-4 font-semibold font-tf rounded-full dark:bg-gray-800 dark:text-gray-200"
           },
           withAddon: {
             "off": "rounded-full"
@@ -28,6 +28,11 @@ const CreateTodo = () => {
   const [message, setMessage] = useState('');
   const dispatch = useDispatch();
   const {error} = useSelector(state => state.todo);
+  const inputRef = useRef();
+
+  const handleInputRef = () => {
+    inputRef.current.focus();
+  }
 
   const handleAddTodo = async(e) =>{
     e.preventDefault(); 
@@ -48,6 +53,11 @@ const CreateTodo = () => {
     }
   }
 
+  setTimeout(() => {
+    dispatch(addTodoFailure(null));
+
+  }, [1200]);
+
   return (
     <>
     {error &&  <Alert color="failure" icon={HiInformationCircle} className='font-semibold font-serif'>
@@ -62,14 +72,14 @@ const CreateTodo = () => {
       <Toast.Toggle />
     </Toast>
   }
-    <section className='flex px-10 flex-col lg:flex-row items-center justify-between'>
+    <section className='flex md:px-10 px-3 flex-col lg:flex-row items-center justify-between'>
       
-    <form onSubmit={handleAddTodo} className='min-w-[200px] max-w-[750px] lg:w-2/4 w-full flex mx-auto py-20 dark:bg-[#464385] bg-[#8a87e7] p-5 mt-10 rounded-3xl'>
-    <TextInput id="name" type="text" color={customTheme} theme={customTheme} placeholder='Add Todo' sizing="lg" className='lg:w-[90%] w-full' value={name} onChange={(e) => setName(e.target.value)} required />
-    <button className='w-16 h-16 bg-gray-800 mt-2 mx-2 rounded-full flex items-center justify-center'><IoMdAddCircleOutline  className='w-16 h-16 rounded-full text-[#c2c2fc] hover:text-[#7c7ced] ' /></button>
+    <form onSubmit={handleAddTodo} className='min-w-[200px] max-w-[750px] lg:w-2/4 w-full flex items-center mx-auto md:py-20 dark:bg-[#464385] bg-[#8a87e7] p-5 mt-10 rounded-3xl'>
+    <TextInput id="name" type="text" color={customTheme} theme={customTheme} placeholder='Add Todo' sizing="lg" className='lg:w-[90%] w-full' value={name} onChange={(e) => setName(e.target.value)} ref={inputRef} required />
+    <button className='md:w-14 md:h-14 w-8 h-8 bg-gray-800 mt-2 mx-2 rounded-lg flex items-center justify-center' onClick={handleInputRef}><IoMdAddCircleOutline  className='md:w-12 md:h-12 w-8 h-8 text-[#c2c2fc] hover:text-[#7c7ced] ' /></button>
   </form>
    <div className='lg:w-2/4 w-full flex flex-col items-center justify-center bg-[#bdbdf5] dark:bg-[#4d4d75]  min-h-3/4 mx-5 my-10'>
-     <h3 className='text-lg md:text-3xl font-serif font-semibold mb-7 mt-4 dark:text-[#ececec]'>Lists</h3>
+     <h3 className='text-2xl md:text-3xl font-serif font-semibold mb-7 mt-4 dark:text-[#ececec]'>Lists</h3>
     <TodoList />
    </div>
   </section>

@@ -13,7 +13,7 @@ const customTheme = {
       },
   input: {
       sizes: {
-          lg: "sm:text-md p-4 font-semibold font-tf rounded-full dark:text-gray-700"
+          lg: "sm:text-md p-4 font-semibold font-tf rounded-full dark:bg-gray-800 dark:text-gray-200"
         },
         withAddon: {
           "off": "rounded-full"
@@ -75,19 +75,19 @@ const Signup = () => {
       <p className="text-md font-semibold text-center">Already have an account <Link to={'/login'} className="text-blue-800 underline dark:text-[#8dbebe] dark:hover:text-blue-300 hover:text-blue-500">SingIn</Link>?</p>
       <div>
         <div className="mb-2 block">
-          <Label htmlFor="username" className="text-xl font-serif font-bold" value="Your username" />
+          <Label htmlFor="username" className="md:text-xl text-lg font-serif font-bold" value="Your username" />
         </div>
         <TextInput id="username" type="text"  sizing={'lg'} color={customTheme} theme={customTheme}  placeholder="username" onChange={handleChange} required />
       </div>
       <div>
         <div className="mb-2 block">
-          <Label htmlFor="email" className="text-xl font-serif font-bold" value="Your email" />
+          <Label htmlFor="email" className="md:text-xl text-lg font-serif font-bold" value="Your email" />
         </div>
         <TextInput id="email" type="email" sizing={'lg'} color={customTheme} theme={customTheme}  placeholder="name@gmail.com" onChange={handleChange} required />
       </div>
       <div>
         <div className="mb-2 block">
-          <Label htmlFor="password1" className="text-xl font-serif font-bold" value="Your password" />
+          <Label htmlFor="password1" className="md:text-xl text-lg font-serif font-bold" value="Your password" />
         </div>
         <TextInput id="password" sizing={'lg'} color={customTheme} theme={customTheme} placeholder="********" type="password" onChange={handleChange} required />
       </div>

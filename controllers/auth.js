@@ -38,7 +38,8 @@ const login = async(req, res) => {
 
     const userInfo = await User.findOne({email}).select("-password -accessToken");
 
-    res.status(200).cookie('auth_token', token, { httpOnly: true, sameSite: 'None', secure: true, maxAge: 2 * 24 * 60 * 60 * 1000 }).json(userInfo);
+    res.status(200).cookie('auth_token', token, { httpOnly: true, sameSite: 'None', secure: true, maxAge: 2 * 24 * 60 * 60 * 1000 }).json(userInfo); // in production
+    // res.status(200).cookie('auth_token', token, { httpOnly: true, secure: true, maxAge: 2 * 24 * 60 * 60 * 1000 }).json(userInfo); // in development
 
 }
 

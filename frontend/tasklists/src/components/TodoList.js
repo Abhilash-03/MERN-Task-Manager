@@ -40,7 +40,7 @@ const TodoList = () => {
 
 
   return (
-    <ul className='w-full px-10 ul-items overflow-auto h-[500px]'>
+    <ul className='w-full lg:px-10 px-4 ul-items overflow-auto h-[500px]'>
       {
         lists.map(item => (
           <li key={item?._id} className='flex items-center justify-between w-full bg-gray-100 px-3 py-3 mb-3 hover:bg-[#e0dfff] hover:scale-105 shadow-shd'>

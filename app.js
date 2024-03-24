@@ -20,7 +20,8 @@ const options = {
 }
 
 // Middlewares
-app.use(cors(options));
+app.use(cors(options)); // in production
+// app.use(cors({origin: 'http://localhost:3000', credentials: true})); // in development
 app.use(express.json());
 app.use(cookieParser())
 

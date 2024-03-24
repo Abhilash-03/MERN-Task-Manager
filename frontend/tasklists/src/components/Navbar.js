@@ -44,7 +44,7 @@ const Header = () => {
   return (
     <>
     { message &&
-      <Toast className='absolute z-20 top-20 left-1/3'>
+      <Toast className='absolute z-20 top-20 lg:left-1/3 left-5'>
       <div className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-green-100 text-green-500 dark:bg-green-800 dark:text-green-200">
         <HiCheck className="h-5 w-5" />
       </div>
@@ -55,14 +55,14 @@ const Header = () => {
     <Navbar fluid className='bg-[#c8c9f4ae] text-gray-800 sticky top-0 z-10' theme={customTheme}>
       <Link to={'/'}>
       <Navbar.Brand as={'div'}>
-        <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-[#9ab9ef] sm:text-2xl md:text-4xl font-serif ">Task Manager</span>
+        <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-[#9ab9ef] sm:text-xl md:text-4xl font-serif ">Task Manager</span>
       </Navbar.Brand>
       </Link>
-      <div className="flex items-center mx-4 space-x-4 md:order-2">
+      <div className="flex items-center md:mx-4 md:space-x-4 space-x-2 md:order-2">
         <div className='rounded-full bg-blue-400 p-1 cursor-pointer'  onClick={() => dispatch(toggleTheme())}>
         { theme === 'light' ?
-        <MdDarkMode className='h-7 w-7' />
-        : <MdLightMode className='h-7 w-7' />
+        <MdDarkMode className='md:h-6 md:w-6 h-5 w-5' />
+        : <MdLightMode className='md:h-6 md:w-6 h-5 w-5' />
        }
         </div>
    { currentUser ?
@@ -71,7 +71,8 @@ const Header = () => {
           theme={customTheme}
           inline
           label={
-            <Avatar alt="User settings" img="https://toppng.com//public/uploads/preview/circled-user-icon-user-pro-icon-11553397069rpnu1bqqup.png" rounded />
+            <Avatar alt="User settings" img="https://toppng.com//public/uploads/preview/circled-user-icon-user-pro-icon-11553397069rpnu1bqqup.png" rounded size={'sm'} />
+            
           }
         >
           

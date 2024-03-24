@@ -14,7 +14,7 @@ const customTheme = {
       },
   input: {
       sizes: {
-          lg: "sm:text-md p-4 font-semibold font-tf rounded-full dark:text-gray-700"
+          lg: "sm:text-md p-4 font-semibold font-tf rounded-full dark:bg-gray-800 dark:text-gray-200"
         },
         withAddon: {
           "off": "rounded-full"
@@ -55,12 +55,9 @@ const SignIn = () => {
       }
 
     } catch (error) {
-      console.log(error.response?.data.msg);
       dispatch(loginFailure(error.response?.data.msg));
-
     }
   }
-
 
   return (
     <form onSubmit={handleSubmit} className="flex max-w-xl mx-auto flex-col gap-4 p-4 bg-[#a2a2e3] dark:bg-[#4d4d75] dark:text-[#ece9f3] my-10 rounded-xl">
@@ -80,13 +77,13 @@ const SignIn = () => {
       <p className="text-md font-semibold text-center">Don't have an account <Link to={'/register'} className="text-blue-800 dark:text-[#8dbebe] dark:hover:text-blue-300 underline hover:text-blue-500">Sing-up</Link>?</p>
       <div>
         <div className="mb-2 block">
-          <Label htmlFor="email" className="text-xl font-serif font-bold" value="Your email" />
+          <Label htmlFor="email" className="md:text-xl text-lg font-serif font-bold" value="Your email" />
         </div>
         <TextInput id="email" type="email" sizing={'lg'} color={customTheme} theme={customTheme}  placeholder="name@gmail.com" onChange={handleChange} required />
       </div>
       <div>
         <div className="mb-2 block">
-          <Label htmlFor="password" className="text-xl font-serif font-bold" value="Your password" />
+          <Label htmlFor="password" className="md:text-xl text-lg font-serif font-bold" value="Your password" />
         </div>
         <TextInput id="password" sizing={'lg'} color={customTheme} theme={customTheme} placeholder="********" type="password" onChange={handleChange} required />
       </div>

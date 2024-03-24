@@ -1,4 +1,4 @@
-import { Alert, Button, Toast } from 'flowbite-react';
+import { Alert, Button, Dropdown, Toast } from 'flowbite-react';
 import React, { useCallback, useEffect, useState } from 'react'
 import { HiCheck, HiInformationCircle } from 'react-icons/hi';
 import { useDispatch, useSelector } from 'react-redux'
@@ -8,8 +8,13 @@ import api from '../axios/axios'
 import Cards from '../components/Cards';
 import { MdCreateNewFolder, MdOutlinePendingActions } from "react-icons/md";
 import { FaCheck, FaHeart, FaLeaf } from 'react-icons/fa';
-const costumeTheme = {
+const customTheme = {
   base: "flex md:max-w-xl max-w-md items-center rounded-lg md:p-4 p-1 text-gray-500 shadow dark:text-gray-400",
+  floating: {
+    style: {
+      auto: "border border-gray-200 bg-indigo-400 text-gray-800 dark:border-none dark:bg-gray-800 dark:text-white"
+    }
+  }
 }
 
 const Lists = () => {
@@ -52,18 +57,23 @@ const Lists = () => {
 
     useEffect(() => {
       handleGetTodos();
+      filterTodos(filterName);
     }, [handleGetTodos])
 
-    
+    setTimeout(() => {
+      dispatch(getTodoFailure(null))
+    }, 1200);
+
+
   return (
     <>
     {error &&  <Alert color="failure" icon={HiInformationCircle} className='font-semibold font-serif'>
     <span className="font-semibold font-tf">Info alert!</span> {error.name}.
   </Alert>}
     <h1 className='font-tf md:text-5xl text-4xl font-bold text-center mt-2 text-purple-800 dark:text-purple-500'>{lists.length > 1 ? "Lists" : "List"} [{lists.length}]</h1>
-    <h1 className=' text-4xl font-bold capitalize font-serif text-center mt-2 text-indigo-500'>[{filterName}({filteredTodo.length})]</h1>
-    <Button.Group className='flex justify-center mt-10 font-tf font-semibold'>
-      <Button color="purple" onClick={() => filterTodos('all')}>
+    <h1 className='lg:text-4xl text-2xl font-bold capitalize font-serif text-center mt-2 text-indigo-500'>[{filterName}({filteredTodo.length})]</h1>
+    <Button.Group className='justify-center mt-10 font-tf font-semibold md:flex hidden'>
+      <Button color="purple"  onClick={() => filterTodos('all')}>
         <FaLeaf className="mr-3 h-4 w-4" />
         All
       </Button>
@@ -80,8 +90,17 @@ const Lists = () => {
         Favourite
       </Button>
     </Button.Group>
+<div className='md:hidden flex items-center justify-center mt-3 font-serif'>
+    <Dropdown label={filterName.toUpperCase()} gradientDuoTone={'purpleToBlue'} theme={customTheme} pill>
+      <Dropdown.Item icon={FaLeaf} className="font-tf" onClick={() => filterTodos('all')}>All</Dropdown.Item>
+      <Dropdown.Item icon={MdOutlinePendingActions} className="font-tf" onClick={() => filterTodos('pending')}>Pending</Dropdown.Item>
+      <Dropdown.Item icon={FaCheck} className="font-tf" onClick={() => filterTodos('completed')}>Completed</Dropdown.Item>
+      <Dropdown.Divider />
+      <Dropdown.Item icon={FaHeart} className="font-tf" onClick={() => filterTodos('favourite')}>Favourite</Dropdown.Item>
+    </Dropdown>
+    </div>
   { message &&
-      <Toast className='mx-auto' theme={costumeTheme}>
+      <Toast className='mx-auto' theme={customTheme}>
       <div className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-green-100 text-green-500 dark:bg-green-800 dark:text-green-200">
         <HiCheck className="h-5 w-5" />
       </div>
