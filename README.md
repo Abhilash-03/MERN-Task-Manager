@@ -1,6 +1,6 @@
 # TodoList App
 
-This is a simple TodoList app that allows users to create, read, update and delete tasks. It is built on the MERN stack (MongoDB, Express, React and Node.js) and it has authorization and authentication features using JWT and bcrypt.
+This is a Task Manager app that allows users to create, read, update delete, and add to favourite tasks. It is built on the MERN stack (MongoDB, Express, React and Node.js) and it has authorization and authentication features using JWT and bcrypt, for state management I used Redux Toolkit.
 
 ## Features
 
@@ -10,6 +10,7 @@ This is a simple TodoList app that allows users to create, read, update and dele
 - Users can edit or delete their tasks.
 - Users can mark their tasks as completed or incomplete.
 - Users can log out from their account.
+- Dark Mode, Add to favourite functionality.
 
 ## Project Preview Link
 [Todolist_Project_Link](https://todolist-views.vercel.app/)
