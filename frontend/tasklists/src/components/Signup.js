@@ -5,6 +5,7 @@ import api from '../axios/axios'
 import { HiFire, HiInformationCircle } from 'react-icons/hi';
 import { useDispatch, useSelector } from "react-redux";
 import { signupSuccess, singupFailure, start } from "../redux/user/userSlice";
+import OAuth from "./OAuth";
 
 const customTheme = {
   field: {
@@ -93,6 +94,13 @@ const Signup = () => {
       </div>
       <Button type="submit" gradientMonochrome={'purple'} theme={customTheme} disabled={loading} size={'lg'} pill>{loading ? <> <Spinner aria-label="Alternate spinner button example" size="sm" />
         <span className="pl-3">Processing...</span> </> : 'Singup'}</Button>
+
+           {/* Google Option */}
+     <div className="inline-flex items-center justify-center w-full">
+    <hr className="w-64 h-px my-8 bg-gray-200 border-0 dark:bg-gray-700"/>
+    <span className="absolute px-3 font-medium text-gray-900 -translate-x-1/2 bg-white left-1/2 dark:text-white dark:bg-gray-900">or</span>
+    </div>
+     <OAuth />
     </form>
   )
 }

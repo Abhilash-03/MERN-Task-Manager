@@ -71,7 +71,7 @@ const Header = () => {
           theme={customTheme}
           inline
           label={
-            <Avatar alt="User settings" img="https://toppng.com//public/uploads/preview/circled-user-icon-user-pro-icon-11553397069rpnu1bqqup.png" rounded size={'sm'} />
+            <Avatar alt="User settings" img={currentUser?.profilePicture} rounded size={'sm'} />
             
           }
         >

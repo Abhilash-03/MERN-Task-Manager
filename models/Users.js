@@ -23,9 +23,12 @@ const userSchema = new mongoose.Schema({
         required: [true, 'Provide a password'],
         minlength: 6
     },
-
-    accessToken: String
-
+    
+    accessToken: String,
+    profilePicture: {
+        type: String,
+        default: "https://tse1.mm.bing.net/th?id=OIP.TpqSE-tsrMBbQurUw2Su-AHaHk&pid=Api&P=0&h=180",
+    }
 })
 
 userSchema.methods.jwtCreate =  function(){

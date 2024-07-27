@@ -43,6 +43,44 @@ const login = async(req, res) => {
 
 }
 
+const googleAuth = async(req, res) => {
+    const { name, email, googlePhotoUrl } = req.body;
+    const user = await User.findOne({email});
+    if(!user){
+     const generatePassword = Math.random().toString(36).slice(-8) + Math.random().toString(36).slice(-8);
+     const hashedPwd = await bcrypt.hash(generatePassword, 10);
+     const newUser = await User.create({
+        username: name.toLowerCase().split(" ").join('') + Math.random().toString(9).slice(-4),
+        email,
+        password: hashedPwd,
+        profilePicture: googlePhotoUrl
+     
+    })
+    const token = await user.jwtCreate();
+
+    user.accessToken = token;
+    await user.save();
+
+    const userInfo = await User.findOne({email}).select("-password -accessToken");
+
+    res.status(200).cookie('auth_token', token, { httpOnly: true, sameSite: 'None', secure: true, maxAge: 2 * 24 * 60 * 60 * 1000 }).json(userInfo);
+    //  res.status(200).cookie('auth_token', token, { httpOnly: true, secure: true, maxAge: 2 * 24 * 60 * 60 * 1000 }).json(userInfo); // in development
+
+    } else {
+         // create token
+        const token = await user.jwtCreate();
+
+        user.accessToken = token;
+        await user.save();
+
+        const userInfo = await User.findOne({email}).select("-password -accessToken");
+
+        res.status(200).cookie('auth_token', token, { httpOnly: true, sameSite: 'None', secure: true, maxAge: 2 * 24 * 60 * 60 * 1000 }).json(userInfo);
+        //  res.status(200).cookie('auth_token', token, { httpOnly: true, secure: true, maxAge: 2 * 24 * 60 * 60 * 1000 }).json(userInfo); // in development
+    }
+
+}
+
 const logout = async(req, res) => {
   res.status(200).clearCookie('auth_token').json({msg: "You are successfully logout"});
 }
@@ -51,5 +89,6 @@ const logout = async(req, res) => {
 module.exports = {
     register,
     login,
+    googleAuth,
     logout
 }

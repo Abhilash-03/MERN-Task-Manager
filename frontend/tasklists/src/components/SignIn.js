@@ -1,11 +1,11 @@
-import { Alert, Button, Label, Spinner, TextInput, Toast } from "flowbite-react"
+import { Alert, Button, Label, Spinner, TextInput, Toast } from "flowbite-react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import api from '../axios/axios'
 import { useDispatch, useSelector } from "react-redux";
 import { loginFailure, loginSuccess, start } from "../redux/user/userSlice";
 import { HiFire, HiInformationCircle } from "react-icons/hi";
-// import axios from "axios";
+import OAuth from "./OAuth";
 
 const customTheme = {
   field: {
@@ -31,7 +31,7 @@ const SignIn = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [message, setMessage] = useState('');
-  const {error, loading} = useSelector(state => state.user);
+  const {error, loading, currentUser} = useSelector(state => state.user);
 
   const handleChange = (e) => {
     e.preventDefault();
@@ -60,16 +60,16 @@ const SignIn = () => {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="flex max-w-xl mx-auto flex-col gap-4 p-4 bg-[#a2a2e3] dark:bg-[#4d4d75] dark:text-[#ece9f3] my-10 rounded-xl">
+    <form onSubmit={handleSubmit} className="flex max-w-xl mx-auto flex-col gap-4 p-4 bg-[#a2a2e3] dark:bg-[#4d4d75] dark:text-[#ece9f3] my-10 rounded-xl py-4">
       {error &&   <Alert color="failure" icon={HiInformationCircle} className="font-semibold font-serif">
       <span className="font-semibold font-tf">Info alert!</span> {error}
     </Alert>}
-      { message &&
+      { currentUser &&
         <Toast className="mb-3 mx-auto">
       <div className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-cyan-100 text-cyan-500 dark:bg-cyan-800 dark:text-cyan-200 ">
         <HiFire className="h-5 w-5" />
       </div>
-      <div className="ml-3 text-sm font-semibold font-tf">Welcome, {message}!</div>
+      <div className="ml-3 text-sm font-semibold font-tf">Welcome, {currentUser.username}!</div>
       <Toast.Toggle />
     </Toast>
     }
@@ -89,6 +89,13 @@ const SignIn = () => {
       </div>
       <Button type="submit" gradientMonochrome={'purple'} theme={customTheme} disabled={loading} size={'lg'} pill>{loading ? <> <Spinner aria-label="Alternate spinner button example" size="sm" />
         <span className="pl-3">Loading...</span> </> : 'Singin'}</Button>
+
+     {/* Google Option */}
+     <div className="inline-flex items-center justify-center w-full">
+    <hr className="w-64 h-px my-8 bg-gray-200 border-0 dark:bg-gray-700"/>
+    <span className="absolute px-3 font-medium text-gray-900 -translate-x-1/2 bg-white left-1/2 dark:text-white dark:bg-gray-900">or</span>
+    </div>
+     <OAuth />
     </form>
   )
 }
