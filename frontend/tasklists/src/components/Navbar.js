@@ -6,7 +6,7 @@ import { toggleTheme } from '../redux/theme/themeSlice';
 import api from '../axios/axios'
 import { logoutSuccess } from '../redux/user/userSlice';
 import { useState } from 'react';
-import { HiCheck, HiLogin, HiLogout } from 'react-icons/hi';
+import { HiCheck, HiLogin, HiLogout, HiUser } from 'react-icons/hi';
 
 const customTheme = {
   content: "py-1 focus:outline-none dark:bg-slate-800 dark:text-red-500 rounded-md",
@@ -80,7 +80,9 @@ const Header = () => {
             <span className="block text-sm font-semibold font-serif">{currentUser?.username}</span>
             <span className="block truncate text-sm font-semibold font-serif">{currentUser?.email}</span>
           </Dropdown.Header>
-          {/* <Dropdown.Item className="text-sm font-semibold font-serif"><HiUser className="mr-2 h-5 w-5" />Profile</Dropdown.Item> */}
+          <Link to={'/user-profile'}>
+          <Dropdown.Item className="text-sm font-semibold font-serif"><HiUser className="mr-2 h-5 w-5" />Profile</Dropdown.Item>
+          </Link>
           <Dropdown.Divider />
           <Dropdown.Item className="text-sm font-semibold font-serif" onClick={handleLogout}><HiLogout className="mr-2 h-5 w-5" />Sign out</Dropdown.Item>
         </Dropdown>

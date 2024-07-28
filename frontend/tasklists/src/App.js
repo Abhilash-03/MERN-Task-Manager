@@ -5,6 +5,7 @@ import CreateTodo from "./page/CreateTodo";
 import Signup from "./components/Signup";
 import SignIn from "./components/SignIn";
 import Lists from "./page/Lists";
+import UserProfile from "./page/UserProfile";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           <Route path="/register" element={<Signup/> } />
           <Route path="/login" element={<SignIn/> } />
           <Route path="/lists" element={<Lists /> } />
+          <Route path="/user-profile" element={<UserProfile /> } />
         </Routes>
     </main>
   );
