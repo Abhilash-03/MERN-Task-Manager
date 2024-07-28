@@ -58,7 +58,7 @@ const Lists = () => {
     useEffect(() => {
       handleGetTodos();
       filterTodos(filterName);
-    }, [handleGetTodos])
+    }, [handleGetTodos, filterName])
 
     setTimeout(() => {
       dispatch(getTodoFailure(null))
@@ -70,8 +70,7 @@ const Lists = () => {
     {error &&  <Alert color="failure" icon={HiInformationCircle} className='font-semibold font-serif'>
     <span className="font-semibold font-tf">Info alert!</span> {error.name}.
   </Alert>}
-    <h1 className='font-tf md:text-5xl text-4xl font-bold text-center mt-2 text-purple-800 dark:text-purple-500'>{lists.length > 1 ? "Lists" : "List"} [{lists.length}]</h1>
-    <h1 className='lg:text-4xl text-2xl font-bold capitalize font-serif text-center mt-2 text-indigo-500'>[{filterName}({filteredTodo.length})]</h1>
+    <h1 className='font-tf md:text-5xl text-4xl font-bold text-center mt-2 text-purple-800 dark:text-purple-500'><span className='capitalize'>{filterName}</span> [{filteredTodo.length}]</h1>
     <Button.Group className='justify-center mt-10 font-tf font-semibold md:flex hidden'>
       <Button color="purple"  onClick={() => filterTodos('all')}>
         <FaLeaf className="mr-3 h-4 w-4" />

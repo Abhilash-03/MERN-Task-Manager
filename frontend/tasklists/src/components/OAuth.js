@@ -23,7 +23,6 @@ const OAuth = () => {
                 googlePhotoUrl: resultsFromGoogle.user.photoURL
             };
             const res = await api.post('/api/v1/auth/googleAuth', newUser);
-            console.log(res?.data);
             if(res.status === 200) {
                 dispatch(loginSuccess(res?.data));
                 setTimeout(() => {
@@ -40,7 +39,7 @@ const OAuth = () => {
 
     }
   return (
-    <Button className="w-2/4 m-auto h-14" gradientDuoTone="purpleToBlue" pill onClick={handleOAuth}>
+    <Button className="md:w-2/4 m-auto h-14 font-tf font-semibold" gradientDuoTone="purpleToBlue" pill onClick={handleOAuth}>
     <FaGoogle className="mr-2 h-5 w-5"  />
     Continue with Google
   </Button>

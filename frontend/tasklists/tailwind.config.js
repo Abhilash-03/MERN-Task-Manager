@@ -9,6 +9,8 @@ module.exports = {
       },
       boxShadow: {
         shd: '3px 4px 18px black',
+        btnshd: '-8px -6px 5px black',
+        hovershd: '8px 6px 5px black'
       },
     },
   },

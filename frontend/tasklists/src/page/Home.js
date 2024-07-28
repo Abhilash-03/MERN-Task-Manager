@@ -11,17 +11,17 @@ const Home = () => {
   return (
     <section className='w-full bg-[#e0dfff] dark:bg-[#e0dfff] dark:text-[#ababab] text-slate-800'>
        <div className='flex flex-col-reverse dark:bg-[#12113b] md:flex-row justify-center items-center'>
-        <div className='py-28 px-10 '>
+        <div className='py-28 md:px-10 px-3'>
          <h1 className='lg:text-7xl md:text-4xl sm:text-5xl  text-4xl font-bold text-[#5756eb] font-tf text-center'>Welcome To Task Manager</h1>
          <div className='text-center dark:text-[#ababab]'>
-         <p className='lg:text-2xl text-xl font-semibold text-[#b256df] font-serif tracking-tight mt-4'>You can arrange and manage your task here.</p>
-         <p className='lg:text-2xl text-xl font-semibold text-[#b256df] font-serif tracking-tight'>What are you waiting for start now!</p>
+         <p className='lg:text-2xl md:text-xl text-lg md:font-semibold text-[#b256df] font-serif tracking-tight mt-4'>You can arrange and manage your task here.</p>
+         <p className='lg:text-2xl md:text-xl text-lg md:font-semibold text-[#b256df] font-serif tracking-tight'>What are you waiting for start now!</p>
          <Link to={'/create'} className='flex justify-center items-center my-3'>
          <Button gradientDuoTone="purpleToBlue"  pill size={'xl'} className='lg:w-2/4 md:w-3/4 sm:w-2/4 w-full  font-tf font-semibold'><FaThumbsUp className="mr-2 h-5 w-5" />Start Now</Button>
          </Link>
      { !currentUser &&
      <>
-         <p className='text-xl font-semibold  font-serif tracking-tight dark:text-[#ababab]'>Don't have account sign-up here</p>
+         <p className='md:text-xl text-lg font-semibold  font-serif tracking-tight dark:text-[#ababab]'>Don't have an account sign-up here</p>
          <Link to={'/register'} className='flex justify-center items-center my-3'>
          <Button gradientDuoTone="purpleToBlue" pill size={'xl'} className='lg:w-2/4 md:w-3/4 sm:w-2/4 w-full font-tf font-semibold'><MdLockPerson className="mr-2 h-5 w-5" />Sign Up</Button>
          </Link>
@@ -29,7 +29,7 @@ const Home = () => {
          }
          </div>
         </div>
-       <div className='home-bg md:mr-4 mr-0 mt-2'>
+       <div className='home-bg md:mr-4 mr-0 mt-2 md:w-1/3'>
          <img src={homebg} className='md:rounded-full rounded-none w-[800px]' alt="home-img" />
          </div>
        </div>

@@ -88,7 +88,7 @@ const SignIn = () => {
         <TextInput id="password" sizing={'lg'} color={customTheme} theme={customTheme} placeholder="********" type="password" onChange={handleChange} required />
       </div>
       <Button type="submit" gradientMonochrome={'purple'} theme={customTheme} disabled={loading} size={'lg'} pill>{loading ? <> <Spinner aria-label="Alternate spinner button example" size="sm" />
-        <span className="pl-3">Loading...</span> </> : 'Singin'}</Button>
+        <span className="pl-3">processing...</span> </> : 'Singin'}</Button>
 
      {/* Google Option */}
      <div className="inline-flex items-center justify-center w-full">

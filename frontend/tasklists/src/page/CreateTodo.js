@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addTodo, addTodoFailure } from '../redux/todo/todoSlice';
 import api from '../axios/axios';
 import { HiCheck, HiInformationCircle } from 'react-icons/hi';
+import { MdAdd } from 'react-icons/md';
 
 const customTheme = {
     field: {
@@ -74,12 +75,13 @@ const CreateTodo = () => {
   }
     <section className='flex md:px-10 px-3 flex-col lg:flex-row items-center justify-between'>
       
-    <form onSubmit={handleAddTodo} className='min-w-[200px] max-w-[750px] lg:w-2/4 w-full flex items-center mx-auto md:py-20 dark:bg-[#464385] bg-[#8a87e7] p-5 mt-10 rounded-3xl'>
+    <form onSubmit={handleAddTodo} className='min-w-[200px] max-w-[750px] lg:w-2/4 w-full flex items-center mx-auto md:py-20 dark:bg-[#464385] bg-[#8a87e7] p-5 mt-10 rounded-3xl relative'>
     <TextInput id="name" type="text" color={customTheme} theme={customTheme} placeholder='Add Todo' sizing="lg" className='lg:w-[90%] w-full' value={name} onChange={(e) => setName(e.target.value)} ref={inputRef} required />
-    <button className='md:w-14 md:h-14 w-8 h-8 bg-gray-800 mt-2 mx-2 rounded-lg flex items-center justify-center' onClick={handleInputRef}><IoMdAddCircleOutline  className='md:w-12 md:h-12 w-8 h-8 text-[#c2c2fc] hover:text-[#7c7ced] ' /></button>
+    <button className='md:w-16 md:h-16 w-10 h-10 mt-2 mx-3 rounded-full flex items-center justify-center' onClick={handleInputRef}><MdAdd  className='md:w-14 md:h-14 w-10 h-10 text-[#ffffff] hover:text-[#d7d7e1] bg-gray-800 shadow-btnshd hover:shadow-hovershd hover:scale-90'/></button>
   </form>
    <div className='lg:w-2/4 w-full flex flex-col items-center justify-center bg-[#bdbdf5] dark:bg-[#4d4d75]  min-h-3/4 mx-5 my-10'>
      <h3 className='text-2xl md:text-3xl font-serif font-semibold mb-7 mt-4 dark:text-[#ececec]'>Lists</h3>
+     {/* rendering lists */}
     <TodoList />
    </div>
   </section>
