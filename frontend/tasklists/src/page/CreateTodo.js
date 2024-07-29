@@ -1,6 +1,5 @@
 import { Alert, TextInput, Toast } from 'flowbite-react'
 import React, { useRef, useState } from 'react'
-import { IoMdAddCircleOutline } from "react-icons/io";
 import TodoList from '../components/TodoList';
 import { useDispatch, useSelector } from 'react-redux';
 import { addTodo, addTodoFailure } from '../redux/todo/todoSlice';

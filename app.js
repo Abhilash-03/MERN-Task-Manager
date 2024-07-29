@@ -4,6 +4,7 @@ const express = require('express');
 const connectDB = require('./db/connectDB');
 const mainRouters = require('./routes/todoRoute');
 const authRouter = require('./routes/authRoute');
+const userRouter = require('./routes/userRoute');
 const notFound = require('./middlewares/notFound');
 const errorHandler = require('./middlewares/errorHandler');
 const authenticated = require('./middlewares/authentication');
@@ -31,6 +32,7 @@ app.get('/', (req, res) => {
 })
 
 // Routes
+app.use('/api/v1/user', userRouter);
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/todos', authenticated, mainRouters);
 
@@ -46,5 +48,4 @@ const start = async()=>{
         console.log(err);
      }
 }
-
 start();

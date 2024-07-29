@@ -30,7 +30,6 @@ const SignIn = () => {
   const [formData, setFormData] = useState(null);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [message, setMessage] = useState('');
   const {error, loading, currentUser} = useSelector(state => state.user);
 
   const handleChange = (e) => {
@@ -45,9 +44,7 @@ const SignIn = () => {
       const response = await api.post('/api/v1/auth/login', formData);
       if(response.status === 200) {
         dispatch(loginSuccess(response?.data));
-         setMessage(response?.data?.username);
         setTimeout(() => {
-         setMessage('');
           navigate('/')
       }, 3000);
       } else {

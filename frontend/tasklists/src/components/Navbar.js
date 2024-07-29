@@ -80,7 +80,7 @@ const Header = () => {
             <span className="block text-sm font-semibold font-serif">{currentUser?.username}</span>
             <span className="block truncate text-sm font-semibold font-serif">{currentUser?.email}</span>
           </Dropdown.Header>
-          <Link to={'/user-profile'}>
+          <Link to={`/user-profile/${currentUser._id}`}>
           <Dropdown.Item className="text-sm font-semibold font-serif"><HiUser className="mr-2 h-5 w-5" />Profile</Dropdown.Item>
           </Link>
           <Dropdown.Divider />

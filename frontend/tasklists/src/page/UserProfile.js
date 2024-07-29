@@ -1,14 +1,16 @@
-import { Button } from 'flowbite-react';
-import React from 'react'
+import { Alert, Button } from 'flowbite-react';
+import React, { useState } from 'react'
 import { FaDeleteLeft } from 'react-icons/fa6';
-import { HiLogout } from 'react-icons/hi';
+import { HiInformationCircle, HiLogout } from 'react-icons/hi';
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom';
 import { logoutSuccess } from '../redux/user/userSlice';
 import api from '../axios/axios';
+import { WarningModal } from '../components/Modal';
 
 const UserProfile = () => {
-    const { currentUser } = useSelector(state => state.user);
+   const [openModal, setOpenModal] = useState(false);
+    const { currentUser, error } = useSelector(state => state.user);
     const dispatch = useDispatch();
    const navigate = useNavigate();
     const handleLogout = async() => {
@@ -21,8 +23,12 @@ const UserProfile = () => {
            console.log(error.response?.data?.msg);
         }
        }
-
+       
   return (
+    <>
+      {error &&   <Alert color="failure" icon={HiInformationCircle} className="font-semibold font-serif">
+      <span className="font-semibold font-tf">Info alert!</span> {error}
+    </Alert>}
     <div className='profile max-w-4xl lg:mx-auto bg-slate-200 mt-10 rounded-2xl shadow-shd mx-4 relative h-[500px] dark:bg-gray-800 '>
         <h1 className='text-center text-2xl md:text-3xl font-bold font-tf py-5 underline dark:text-gray-300'>Account Details</h1>
         <img src={currentUser?.profilePicture} alt="profile-img" className='absolute rounded-full h-14 w-14 -top-3 -left-3 hover:brightness-75 cursor-pointer border-2 border-blue-300' />
@@ -42,7 +48,7 @@ const UserProfile = () => {
   
 
         <div className="flex items-center justify-between flex-wrap-reverse gap-2">
-      <Button gradientDuoTone="pinkToOrange" className='font-serif font-bold w-full sm:w-auto'>
+      <Button gradientDuoTone="pinkToOrange" className='font-serif font-bold w-full sm:w-auto' onClick={() => setOpenModal(true)}>
         <FaDeleteLeft className="mr-2 h-5 w-5" />
         Delete Account
       </Button>
@@ -53,7 +59,11 @@ const UserProfile = () => {
     </div>
        </div>
       
+      {/* Modal */}
+      <WarningModal openModal={openModal} setOpenModal={setOpenModal} />
     </div>
+    </>
+
   )
 }
 
