@@ -54,6 +54,10 @@ const Signup = () => {
     }
   }
 
+  setTimeout(() => {
+    dispatch(singupFailure(''));
+  }, 2200);
+
   const handleChange = (e) => {
     setFormData({...formData, [e.target.id]: e.target.value.trim()})
   }

@@ -56,6 +56,10 @@ const SignIn = () => {
     }
   }
 
+  setTimeout(() => {
+    dispatch(loginFailure(''));
+  }, 2200);
+
   return (
     <form onSubmit={handleSubmit} className="flex max-w-xl mx-auto flex-col gap-4 p-4 bg-[#a2a2e3] dark:bg-[#4d4d75] dark:text-[#ece9f3] my-10 rounded-xl py-4">
       {error &&   <Alert color="failure" icon={HiInformationCircle} className="font-semibold font-serif">

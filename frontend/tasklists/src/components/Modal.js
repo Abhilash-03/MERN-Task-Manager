@@ -13,7 +13,6 @@ export function WarningModal({ openModal, setOpenModal }) {
     dispatch(deleteUserStart());
    try {
    const res = await api.delete(`/api/v1/user/deleteAccount/${uid}`);
-   console.log(res.data);
     if(res.status === 200){
         dispatch(deleteUserSuccess(res?.data))
         navigate('/register');
