@@ -2,7 +2,9 @@ import { Alert, Button, Label, Spinner, TextInput, Toast } from "flowbite-react"
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import api from '../axios/axios'
-import { HiFire, HiInformationCircle } from 'react-icons/hi';
+import { HiEye, HiEyeOff, HiFire, HiInformationCircle, HiMail, HiUser } from 'react-icons/hi';
+import { RiLockPasswordFill } from "react-icons/ri";
+import { FiLogIn } from "react-icons/fi";
 import { useDispatch, useSelector } from "react-redux";
 import { signupSuccess, singupFailure, start } from "../redux/user/userSlice";
 import OAuth from "./OAuth";
@@ -29,6 +31,7 @@ const customTheme = {
 const Signup = () => {
   const [formData, setFormData] = useState(null);
   const [msg, setMsg] = useState(null);
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { error, loading} = useSelector(state => state.user);
@@ -82,22 +85,23 @@ const Signup = () => {
         <div className="mb-2 block">
           <Label htmlFor="username" className="md:text-xl text-lg font-serif font-bold" value="Your username" />
         </div>
-        <TextInput id="username" type="text"  sizing={'lg'} color={customTheme} theme={customTheme}  placeholder="username" onChange={handleChange} required />
+        <TextInput id="username" type="text" icon={HiUser}  sizing={'lg'} color={customTheme} theme={customTheme}  placeholder="username123" onChange={handleChange} required />
       </div>
       <div>
         <div className="mb-2 block">
           <Label htmlFor="email" className="md:text-xl text-lg font-serif font-bold" value="Your email" />
         </div>
-        <TextInput id="email" type="email" sizing={'lg'} color={customTheme} theme={customTheme}  placeholder="name@gmail.com" onChange={handleChange} required />
+        <TextInput id="email" type="email" icon={HiMail} sizing={'lg'} color={customTheme} theme={customTheme}  placeholder="example@gmail.com" onChange={handleChange} required />
       </div>
-      <div>
+      <div className="relative">
         <div className="mb-2 block">
           <Label htmlFor="password1" className="md:text-xl text-lg font-serif font-bold" value="Your password" />
         </div>
-        <TextInput id="password" sizing={'lg'} color={customTheme} theme={customTheme} placeholder="********" type="password" onChange={handleChange} required />
+        <TextInput id="password" sizing={'lg'} icon={RiLockPasswordFill} color={customTheme} theme={customTheme} placeholder="********" type={showPassword ? "text" : "password"} onChange={handleChange} required />
+        <span className="absolute top-12 right-3 text-xl cursor-pointer h-9 w-9 hover:text-blue-300 hover:bg-gray-600 hover:rounded-full p-2" onClick={() => setShowPassword(!showPassword)}>{showPassword ? <HiEye/> :  <HiEyeOff/> }</span>
       </div>
-      <Button type="submit" gradientMonochrome={'purple'} theme={customTheme} disabled={loading} size={'lg'} pill>{loading ? <> <Spinner aria-label="Alternate spinner button example" size="sm" />
-        <span className="pl-3">Processing...</span> </> : 'Singup'}</Button>
+      <Button type="submit" gradientMonochrome={'purple'}  theme={customTheme} disabled={loading} size={'lg'} pill>{loading ? <> <Spinner aria-label="Alternate spinner button example" size="sm" />
+        <span className="pl-3">Processing...</span> </> : 'Singup'} <span className="ml-2">{<FiLogIn/>}</span></Button>
 
            {/* Google Option */}
      <div className="inline-flex items-center justify-center w-full">
