@@ -6,6 +6,7 @@ import Signup from "./components/Signup";
 import SignIn from "./components/SignIn";
 import Lists from "./page/Lists";
 import UserProfile from "./page/UserProfile";
+import NotFound from "./components/NotFound";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route path="/login" element={<SignIn/> } />
           <Route path="/lists" element={<Lists /> } />
           <Route path='/user-profile/:uid' element={<UserProfile /> } />
+          <Route path='/*' element={<NotFound /> } />
         </Routes>
     </main>
   );
