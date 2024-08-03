@@ -34,7 +34,7 @@ app.get('/', (req, res) => {
 // Routes
 app.use('/api/v1/user', userRouter);
 app.use('/api/v1/auth', authRouter);
-app.use('/api/v1/todos', authenticated, mainRouters);
+app.use('/api/v2/todos', authenticated, mainRouters);
 
 app.use(notFound);
 app.use(errorHandler);

@@ -16,7 +16,7 @@ const Cards = ({ todo, setMessage, handleGetTodos }) => {
   const handleRemoveTodo = async(id) => {
     setLoading(true);
     try {
-      const response = await api.delete(`/api/v1/todos/${id}`);
+      const response = await api.delete(`/api/v2/todos/${id}`);
       if(response) {
         dispatch(deleteTodo())
         handleGetTodos();
@@ -40,7 +40,7 @@ const Cards = ({ todo, setMessage, handleGetTodos }) => {
   
   const handleAddFavourite = async(id, addFavourite) => {
      try {
-      const response = await api.patch(`/api/v1/todos/favourite/${id}`, { favourite: addFavourite });
+      const response = await api.patch(`/api/v2/todos/favourite/${id}`, { favourite: addFavourite });
       if(response) {
         handleGetTodos();
         if(addFavourite){
@@ -59,20 +59,25 @@ const Cards = ({ todo, setMessage, handleGetTodos }) => {
 
 
   return (
-    <div className={`p-3 ${todo.completed ? 'bg-[#6868f4] text-gray-800 hover:bg-[#6161ed]' : todo.favourite ? 'bg-[#652fb8] text-slate-200 hover:bg-[#7e48cf] hover:text-gray-900' :  'bg-[#bdbdf5]'} m-3 max-w-sm text-xl font-semibold font-serif relative shadow-shd dark:shadow-black hover:scale-105 hover:bg-[#9090e3] rounded-lg`}>
+    <div className={`p-3 ${todo.status === 'completed' ? 'bg-[#6868f4] text-gray-800 hover:bg-[#6161ed]' : todo.favourite ? 'bg-[#652fb8] text-slate-200 hover:bg-[#7e48cf] hover:text-gray-900' :  'bg-[#bdbdf5]'} m-3 max-w-sm text-xl font-semibold font-serif relative shadow-shd dark:shadow-black hover:scale-105 hover:bg-[#9090e3] rounded-lg`}>
       {
         todo.favourite ? <FaStar className="absolute -top-2 right-0 h-5 w-5 text-[#dd4be8]" onClick={() => handleAddFavourite(todo._id, false)} />
         : <FaRegStar className="absolute -top-2 right-0 h-5 w-5 text-[#3838f0]" onClick={() => handleAddFavourite(todo._id, true)}/>
      
       }
     <div className="p-1 gap-2 flex flex-col">
-       <p className='font-tf'>
-        <span className='font-serif'>Title:</span> <span>{todo.name}</span>
+       <p className='font-tf flex justify-between items-center'>
+        <span className='font-serif'>Name:</span> <span>{todo.name}</span>
        </p>
-       <p className='font-tf flex space-x-5'>
-       <span className='font-serif'>Completed:</span> <span>{todo.completed ? <FaCheckDouble className="h-7 w-7 text-green-500 bg-white p-1 rounded-full" /> : <GiCrossMark className="h-7 w-7 text-red-500 bg-gray-800 p-1 rounded-full"  />}</span>
+   {todo.notes &&
+       <p className='font-tf flex justify-between items-center'>
+        <span className='font-serif'>Notes:</span> <span>{todo.notes}</span>
        </p>
-       <p className='font-tf'>
+       }
+       <p className='font-tf flex justify-between items-center'>
+       <span className='font-serif'>Status:</span> <span>{todo.status}</span>
+       </p>
+       <p className='font-tf flex justify-between items-center'>
        <span className='font-serif'>Created:</span> <span>{(todo.createdAt).slice(0, 10)}</span>
        </p>
     </div>

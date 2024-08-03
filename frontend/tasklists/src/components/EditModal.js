@@ -1,4 +1,4 @@
-import { Button, Checkbox, Label, Modal, TextInput } from 'flowbite-react'
+import { Button, Checkbox, Label, Modal, Select, Textarea, TextInput } from 'flowbite-react'
 import React, { useState } from 'react'
 import api from '../axios/axios'
 import { useDispatch } from 'react-redux';
@@ -14,7 +14,7 @@ const customTheme = {
             lg: "sm:text-md p-4 font-semibold font-tf rounded-full dark:text-gray-700"
           },
           withAddon: {
-            "off": "rounded-full"
+            "off": "rounded-2xl"
           },
     },
   },
@@ -48,21 +48,22 @@ const customTheme = {
 const EditModal = ({ setOpenModal, openModal, todo, setMessage, handleGetTodos}) => {
   const [editFormData, setEditFormData] = useState({
       name: todo.name,
-      completed: todo.completed
+      notes: todo.notes,
+      status: todo.status
   });
   const dispatch = useDispatch();
-
   function onCloseModal() {
     setOpenModal(false);
     setEditFormData({
         name: todo.name,
-        completed: todo.completed
+        notes: todo.notes,
+        status: todo.status
     });
   }
 
   const handleUpdateTodo = async(id) => {
     try{
-     const response = await api.patch(`/api/v1/todos/${id}`, editFormData);
+     const response = await api.patch(`/api/v2/todos/${id}`, editFormData);
      if(response) {
       handleGetTodos();
       setMessage(response.data.msg)
@@ -86,7 +87,7 @@ const EditModal = ({ setOpenModal, openModal, todo, setMessage, handleGetTodos})
         <h3 className="text-2xl font-bold font-tf">Edit Todo</h3>
         <div>
           <div className="mb-2 block">
-            <Label htmlFor="name" value="Edit Name" className='text-xl font-serif font-bold' />
+            <Label htmlFor="name" value="Edit Name" className='text-lg font-serif font-bold' />
           </div>
           <TextInput
             id="name"
@@ -99,11 +100,34 @@ const EditModal = ({ setOpenModal, openModal, todo, setMessage, handleGetTodos})
           />
         </div>
         <div>
-          <div className="mb-2 flex items-center justify-between">
-            <Label htmlFor="completed" value="Completed"  className='text-xl font-serif font-bold' />
-          <Checkbox id="completed" type="checkbox" className='min-h-8 min-w-8 font-bold text-3xl' checked={editFormData.completed}
-            onChange={(e) => setEditFormData({...editFormData, completed: !(editFormData.completed)})}/>
+          <div className="mb-2 block">
+            <Label htmlFor="notes" value="Edit Notes" className='text-lg font-serif font-bold' />
           </div>
+          <Textarea
+            id="notes"
+            placeholder="Edit notes"
+            value={editFormData.notes}
+            onChange={(e) => setEditFormData({...editFormData, notes: e.target.value})}
+            className='sm:text-md p-4 font-semibold font-tf rounded-2xl dark:text-gray-700'
+            sizing={'lg'}
+            rows={4}
+          ></Textarea>
+        </div>
+        <div>
+          <div className="mb-2 block">
+            <Label htmlFor="notes" value="Edit Status" className='text-lg font-serif font-bold' />
+          </div>
+          <Select
+            id="status"
+            value={editFormData.status}
+            onChange={(e) => setEditFormData({...editFormData, status: e.target.value})}
+            className='sm:text-md font-semibold font-tf rounded-2xl dark:text-gray-700'
+            sizing={'lg'}
+          >
+            <option value="pending">Pending</option>
+            <option value="in-working">In-working</option>
+            <option value="completed">Completed</option>
+          </Select>
         </div>
        <div className='flex items-center justify-between flex-wrap'>
         <Button gradientMonochrome={'info'} onClick={onCloseModal} pill>Cancel</Button>
