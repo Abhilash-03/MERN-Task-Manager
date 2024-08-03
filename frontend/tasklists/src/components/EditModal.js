@@ -1,4 +1,4 @@
-import { Button, Checkbox, Label, Modal, Select, Textarea, TextInput } from 'flowbite-react'
+import { Button, Label, Modal, Select, Textarea, TextInput } from 'flowbite-react'
 import React, { useState } from 'react'
 import api from '../axios/axios'
 import { useDispatch } from 'react-redux';

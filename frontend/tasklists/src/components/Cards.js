@@ -5,8 +5,8 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import api from '../axios/axios';
 import EditModal from "./EditModal";
-import { FaCheckDouble, FaRegStar, FaStar } from "react-icons/fa";
-import { GiCrossMark } from "react-icons/gi";
+import { FaRegStar, FaStar } from "react-icons/fa";
+
 
 const Cards = ({ todo, setMessage, handleGetTodos }) => { 
   const [loading, setLoading] = useState(false);
@@ -59,25 +59,25 @@ const Cards = ({ todo, setMessage, handleGetTodos }) => {
 
 
   return (
-    <div className={`p-3 ${todo.status === 'completed' ? 'bg-[#6868f4] text-gray-800 hover:bg-[#6161ed]' : todo.favourite ? 'bg-[#652fb8] text-slate-200 hover:bg-[#7e48cf] hover:text-gray-900' :  'bg-[#bdbdf5]'} m-3 max-w-sm text-xl font-semibold font-serif relative shadow-shd dark:shadow-black hover:scale-105 hover:bg-[#9090e3] rounded-lg`}>
+    <div className={`p-3 ${todo.status === 'completed' ? 'bg-[#6868f4] text-gray-800 hover:bg-[#6161ed]' : todo.favourite ? 'bg-[#652fb8] text-slate-200 hover:bg-[#7e48cf] hover:text-gray-900' :  'bg-[#bdbdf5]'} m-3 md:max-w-sm max-w-md mx-auto w-full text-xl font-semibold font-serif relative shadow-shd dark:shadow-black hover:scale-105 hover:bg-[#9090e3] rounded-lg`}>
       {
         todo.favourite ? <FaStar className="absolute -top-2 right-0 h-5 w-5 text-[#dd4be8]" onClick={() => handleAddFavourite(todo._id, false)} />
         : <FaRegStar className="absolute -top-2 right-0 h-5 w-5 text-[#3838f0]" onClick={() => handleAddFavourite(todo._id, true)}/>
      
       }
     <div className="p-1 gap-2 flex flex-col">
-       <p className='font-tf flex justify-between items-center'>
+       <p className='font-tf flex space-x-3'>
         <span className='font-serif'>Name:</span> <span>{todo.name}</span>
        </p>
    {todo.notes &&
-       <p className='font-tf flex justify-between items-center'>
+       <p className='font-tf flex  space-x-3'>
         <span className='font-serif'>Notes:</span> <span>{todo.notes}</span>
        </p>
        }
-       <p className='font-tf flex justify-between items-center'>
+       <p className='font-tf flex space-x-3'>
        <span className='font-serif'>Status:</span> <span>{todo.status}</span>
        </p>
-       <p className='font-tf flex justify-between items-center'>
+       <p className='font-tf flex space-x-3'>
        <span className='font-serif'>Created:</span> <span>{(todo.createdAt).slice(0, 10)}</span>
        </p>
     </div>
