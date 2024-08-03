@@ -1,4 +1,4 @@
-import { Alert, TextInput, Toast } from 'flowbite-react'
+import { Alert, Textarea, TextInput, Toast } from 'flowbite-react'
 import React, { useRef, useState } from 'react'
 import TodoList from '../components/TodoList';
 import { useDispatch, useSelector } from 'react-redux';
@@ -6,6 +6,7 @@ import { addTodo, addTodoFailure } from '../redux/todo/todoSlice';
 import api from '../axios/axios';
 import { HiCheck, HiInformationCircle } from 'react-icons/hi';
 import { MdAdd } from 'react-icons/md';
+import { FaPenFancy } from 'react-icons/fa';
 
 const customTheme = {
     field: {
@@ -14,17 +15,20 @@ const customTheme = {
         },
     input: {
         sizes: {
-            lg: "sm:text-xl p-4 font-semibold font-tf rounded-full dark:bg-gray-800 dark:text-gray-200"
+            lg: "sm:text-xl p-4 font-semibold font-tf rounded-2xl dark:bg-gray-800 dark:text-gray-200"
           },
           withAddon: {
-            "off": "rounded-full"
+            "off": "rounded-2xl"
           },
     },
   }
 };
 
 const CreateTodo = () => {
-  const [name, setName] = useState('');
+  const [newTodo, setNewTodo] = useState({
+    name: '',
+    notes: ''
+  });
   const [message, setMessage] = useState('');
   const dispatch = useDispatch();
   const {error} = useSelector(state => state.todo);
@@ -34,20 +38,25 @@ const CreateTodo = () => {
     inputRef.current.focus();
   }
 
+  const handleOnChange = (e) => {
+    setNewTodo({...newTodo, [e.target.name]: e.target.value});
+  }
+
   const handleAddTodo = async(e) =>{
     e.preventDefault(); 
     setMessage('')
     try {
       dispatch(addTodoFailure(null));
-      const response = await api.post('/api/v1/todos', { name });
+      const response = await api.post('/api/v2/todos',  newTodo);
+      console.log(response.data);
       if(response.status === 201) {
         dispatch(addTodo(response?.data?.todoList));
-        setMessage('Success: Todo Created!')
+        setMessage(response?.data?.msg)
       } else {
         dispatch(addTodoFailure(response?.data?.msg));
       }
 
-      setName('');
+      setNewTodo({name: '', notes: ''});
     } catch (error) {
       dispatch(addTodoFailure(error.response?.data?.msg));
     }
@@ -64,19 +73,20 @@ const CreateTodo = () => {
     <span className="font-semibold font-tf">Info alert!</span> {error}.
   </Alert>}
   { message &&
-      <Toast className='mx-auto'>
+      <Toast className='mx-auto w-full'>
       <div className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-green-100 text-green-500 dark:bg-green-800 dark:text-green-200">
         <HiCheck className="h-5 w-5" />
       </div>
-      <div className="ml-3 text-sm font-semibold font-tf text-green-400">{message}</div>
+      <div className="ml-3 text-sm font-semibold font-tf text-green-400 w-full">{message}</div>
       <Toast.Toggle />
     </Toast>
   }
     <section className='flex md:px-10 px-3 flex-col lg:flex-row items-center justify-between'>
       
-    <form onSubmit={handleAddTodo} className='min-w-[200px] max-w-[750px] lg:w-2/4 w-full flex items-center mx-auto md:py-20 dark:bg-[#464385] bg-[#8a87e7] p-5 mt-10 rounded-3xl relative'>
-    <TextInput id="name" type="text" color={customTheme} theme={customTheme} placeholder='Add Todo' sizing="lg" className='lg:w-[90%] w-full' value={name} onChange={(e) => setName(e.target.value)} ref={inputRef} required />
-    <button className='md:w-16 md:h-16 w-10 h-10 mt-2 mx-3 rounded-full flex items-center justify-center' onClick={handleInputRef}><MdAdd  className='md:w-14 md:h-14 w-10 h-10 text-[#ffffff] hover:text-[#d7d7e1] bg-gray-800 shadow-btnshd hover:shadow-hovershd hover:scale-90'/></button>
+    <form onSubmit={handleAddTodo} className='min-w-[200px] max-w-[750px] lg:w-2/4 w-full flex flex-col items-center mx-auto md:py-20 dark:bg-[#464385] bg-[#8a87e7] p-5 mt-10 rounded-3xl relative space-y-3'>
+    <TextInput id="name" name='name' type="text" color={customTheme} icon={FaPenFancy} theme={customTheme} placeholder='Write Todo*' sizing="lg" className='lg:w-[90%] w-full' value={newTodo.name} onChange={handleOnChange} ref={inputRef} required />
+      <Textarea id="notes" name='notes' type="text" color={customTheme} placeholder='Write your notes (optional)' sizing="lg" className='lg:w-[90%] w-full sm:text-lg p-4 font-semibold font-tf rounded-2xl dark:bg-gray-800 dark:text-gray-200' value={newTodo.notes} onChange={handleOnChange} ref={inputRef} rows={4}></Textarea>
+    <button className='md:w-2/4 md:h-16 w-3/4 h-14 mt-2 mx-3 rounded-full flex items-center justify-center text-2xl font-tf text-[#ffffff] hover:text-[#a5f4bd] dark:bg-gray-800 bg-indigo-800 shadow-btnshd hover:shadow-hovershd hover:scale-90' onClick={handleInputRef}><MdAdd  className='md:w-12 md:h-12 w-10 h-10'/>Create</button>
   </form>
    <div className='lg:w-2/4 w-full flex flex-col items-center justify-center bg-[#bdbdf5] dark:bg-[#4d4d75]  min-h-3/4 mx-5 my-10'>
      <h3 className='text-2xl md:text-3xl font-serif font-semibold mb-7 mt-4 dark:text-[#ececec]'>Lists</h3>

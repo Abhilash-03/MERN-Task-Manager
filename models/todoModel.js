@@ -4,11 +4,15 @@ const todoSchema = new mongoose.Schema({
     name: {
         type: String,
         required: [true, "Name is required"],
-        maxlength: [40, 'Max. length should be 40 characters']
+        maxlength: [40, 'You can only write upto 40 characters']
     },
-    completed: {
-        type: Boolean,
-        default: false
+    notes: {
+        type: String,
+        maxlength: [150, 'You can only write upto 150 characters'],
+    },
+    status: {
+        type: String,
+        default: 'pending'
     },
     favourite: {
         type: Boolean,

@@ -34,7 +34,7 @@ const Lists = () => {
           }
         }, 1000)
         try {
-          const res = await api.get('/api/v1/todos');
+          const res = await api.get('/api/v2/todos');
           if(res.status === 200){
             dispatch(getTodos(res?.data?.getTodo));
           } else{

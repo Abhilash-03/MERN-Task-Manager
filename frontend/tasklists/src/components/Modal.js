@@ -2,7 +2,7 @@ import { Button, Modal } from "flowbite-react";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
 import api from '../axios/axios';
 import { useNavigate, useParams } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import {deleteUserStart, deleteUserSuccess, deleteUserFailure} from '../redux/user/userSlice';
 
 export function WarningModal({ openModal, setOpenModal }) {

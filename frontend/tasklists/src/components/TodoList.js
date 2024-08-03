@@ -19,7 +19,7 @@ const TodoList = () => {
         }
       }, 1000)
       try {
-        const res = await api.get('/api/v1/todos');
+        const res = await api.get('/api/v2/todos');
         if(res.status === 200){
           dispatch(getTodos(res?.data?.getTodo))
         } else{
@@ -43,7 +43,7 @@ const TodoList = () => {
     <ul className='w-full lg:px-10 px-4 ul-items overflow-auto h-[500px]'>
       {
         lists.map(item => (
-          <li key={item?._id} className='flex items-center justify-between w-full bg-gray-100 px-3 py-3 mb-3 hover:bg-[#e0dfff] hover:scale-105 shadow-shd'>
+          <li key={item?._id} className='flex items-center justify-between w-full h-16 bg-gray-100 px-3 py-3 mb-3 hover:bg-indigo-700 hover:text-gray-200 hover:scale-95 shadow-shd dark:bg-slate-800 dark:hover:bg-black dark:text-gray-200 hover:shadow-hovershd rounded-lg'>
           <span className='text-xl font-semibold font-tf'>{item?.name}</span>
           <Link to={'/lists'}>
           <MdReadMore className='h-7 w-7 border-2 border-blue-500 rounded-full hover:bg-blue-200 font-bold cursor-pointer' />
