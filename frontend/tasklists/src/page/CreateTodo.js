@@ -65,7 +65,7 @@ const CreateTodo = () => {
   setTimeout(() => {
     dispatch(addTodoFailure(null));
 
-  }, [1200]);
+  }, [3200]);
 
   return (
     <>
@@ -84,8 +84,10 @@ const CreateTodo = () => {
     <section className='flex md:px-10 px-3 flex-col lg:flex-row items-center justify-between'>
       
     <form onSubmit={handleAddTodo} className='min-w-[200px] max-w-[750px] lg:w-2/4 w-full flex flex-col items-center mx-auto md:py-20 dark:bg-[#464385] bg-[#8a87e7] p-5 mt-10 rounded-3xl relative space-y-3'>
-    <TextInput id="name" name='name' type="text" color={customTheme} icon={FaPenFancy} theme={customTheme} placeholder='Write Todo*' sizing="lg" className='lg:w-[90%] w-full' value={newTodo.name} onChange={handleOnChange} ref={inputRef} required />
-      <Textarea id="notes" name='notes' type="text" color={customTheme} placeholder='Write your notes (optional)' sizing="lg" className='lg:w-[90%] w-full sm:text-lg p-4 font-semibold font-tf rounded-2xl dark:bg-gray-800 dark:text-gray-200' value={newTodo.notes} onChange={handleOnChange} ref={inputRef} rows={4}></Textarea>
+    <TextInput id="name" name='name' type="text" color={customTheme} icon={FaPenFancy} theme={customTheme} placeholder='Write Todo*' sizing="lg" className='lg:w-[90%] w-full' value={newTodo.name} onChange={handleOnChange} ref={inputRef} required maxLength={'40'} minLength={'2'} />
+      <Textarea id="notes" name='notes' type="text" color={customTheme} placeholder='Write your notes (optional)' sizing="lg" className='lg:w-[90%] w-full sm:text-lg p-4 font-semibold font-tf rounded-2xl dark:bg-gray-800 dark:text-gray-200 relative' value={newTodo.notes} onChange={handleOnChange} ref={inputRef} rows={4} maxLength={'150'}>
+      </Textarea>
+      <span className='bg-slate-100 dark:bg-slate-600 dark:text-slate-100 p-2 font-semibold font-serif rounded-md absolute bottom-40 right-20'>{newTodo.notes.length}/150</span>
     <button className='md:w-2/4 md:h-16 w-3/4 h-14 mt-2 mx-3 rounded-full flex items-center justify-center text-2xl font-tf text-[#ffffff] hover:text-[#a5f4bd] dark:bg-gray-800 bg-indigo-800 shadow-btnshd hover:shadow-hovershd hover:scale-90' onClick={handleInputRef}><MdAdd  className='md:w-12 md:h-12 w-10 h-10'/>Create</button>
   </form>
    <div className='lg:w-2/4 w-full flex flex-col items-center justify-center bg-[#bdbdf5] dark:bg-[#4d4d75]  min-h-3/4 mx-5 my-10'>

@@ -97,6 +97,7 @@ const EditModal = ({ setOpenModal, openModal, todo, setMessage, handleGetTodos})
             required
             theme={customTheme}
             sizing={'lg'}
+            maxLength={'40'}
           />
         </div>
         <div>
@@ -111,6 +112,7 @@ const EditModal = ({ setOpenModal, openModal, todo, setMessage, handleGetTodos})
             className='sm:text-md p-4 font-semibold font-tf rounded-2xl dark:text-gray-700'
             sizing={'lg'}
             rows={4}
+            maxLength={'150'}
           ></Textarea>
         </div>
         <div>
