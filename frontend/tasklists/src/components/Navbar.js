@@ -115,6 +115,11 @@ const Header = () => {
           Restore/Delete
         </Navbar.Link>
         </Link> */}
+        <Link to='/genai'>
+        <Navbar.Link className='text-lg font-semibold font-tf' as={'div'}>
+          GenAI
+        </Navbar.Link>
+        </Link>
       
       </Navbar.Collapse>
     </Navbar>

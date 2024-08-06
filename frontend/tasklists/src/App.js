@@ -7,6 +7,7 @@ import SignIn from "./components/SignIn";
 import Lists from "./page/Lists";
 import UserProfile from "./page/UserProfile";
 import NotFound from "./components/NotFound";
+import GenAi from "./page/GenAi";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route path="/register" element={<Signup/> } />
           <Route path="/login" element={<SignIn/> } />
           <Route path="/lists" element={<Lists /> } />
+          <Route path="/genai" element={<GenAi /> } />
           <Route path='/user-profile/:uid' element={<UserProfile /> } />
           <Route path='/*' element={<NotFound /> } />
         </Routes>
