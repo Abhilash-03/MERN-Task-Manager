@@ -2,6 +2,9 @@ import { Alert, Button, TextInput } from 'flowbite-react'
 import api from '../axios/axios';
 import { useState } from 'react';
 import { HiInformationCircle } from 'react-icons/hi';
+import { logoutSuccess } from '../redux/user/userSlice';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 const customTheme = {
     field: {
@@ -25,6 +28,7 @@ const GenAi = () => {
     const [loading, setLoading] = useState(false);
     const [question, setQuestion] = useState(null);
     const [error, setError] = useState(null);
+    const dispatch = useDispatch();
 
     const handleGeneratingData = async() => {
         setQuestion(prompt);
@@ -35,21 +39,20 @@ const GenAi = () => {
            setGeneratedAnswer(textWithBreaks);
          } catch (error) {
             console.log(error.response?.data);
-            setError(error.response?.data);
+            if(error.response?.status === 401) {
+                dispatch(logoutSuccess());
+              }
+            setError(error.response?.data?.msg);
          } finally{
             setLoading(false);
          }
          setPrompt('');
     }
      
-      setTimeout(() => {
-        setError(null);
-      }, 3000);
-
   return (
     <>
        {error &&  <Alert color="failure" icon={HiInformationCircle} className='font-semibold font-serif'>
-    <span className="font-semibold font-tf">Error: </span> {error}.
+    <span className="font-semibold font-tf">Error: </span> {error} Please sign-in or sing-up.
   </Alert>}
     <div className='screen max-w-5xl min-w-64 bg-gray-800 text-slate-200 h-[500px] lg:h-[580px] mx-auto rounded-t-3xl shadow-shd p-4 mt-4 space-y-3 overflow-auto dark:bg-black dark:text-gray-400'>
        <div className="info space-y-2">
