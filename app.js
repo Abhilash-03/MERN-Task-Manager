@@ -5,6 +5,7 @@ const connectDB = require('./db/connectDB');
 const mainRouters = require('./routes/todoRoute');
 const authRouter = require('./routes/authRoute');
 const userRouter = require('./routes/userRoute');
+const genaiRouter = require('./routes/genaiRoute');
 const notFound = require('./middlewares/notFound');
 const errorHandler = require('./middlewares/errorHandler');
 const authenticated = require('./middlewares/authentication');
@@ -35,6 +36,7 @@ app.get('/', (req, res) => {
 app.use('/api/v1/user', userRouter);
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v2/todos', authenticated, mainRouters);
+app.use('/api/v1/ai', authenticated, genaiRouter);
 
 app.use(notFound);
 app.use(errorHandler);

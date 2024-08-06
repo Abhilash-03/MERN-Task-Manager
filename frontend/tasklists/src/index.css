@@ -12,6 +12,7 @@
 
 ::-webkit-scrollbar-thumb{
     background-color: rgb(191, 159, 254);
+    border-radius: 8px;
 }
 
 .ul-items::-webkit-scrollbar{
@@ -22,4 +23,5 @@
 
 .ul-items::-webkit-scrollbar-thumb{
     background-color: rgb(191, 159, 254);
+  border-radius: 8px;
 }
