@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import api from '../axios/axios'
 import { useDispatch, useSelector } from 'react-redux';
 import { getTodoFailure, getTodos } from '../redux/todo/todoSlice';
+import { logoutSuccess } from '../redux/user/userSlice';
 
 const TodoList = () => {
   const dispatch = useDispatch();
@@ -29,6 +30,7 @@ const TodoList = () => {
       } catch (error) {
         dispatch(getTodoFailure(error.response?.data.msg))
         if(error.response?.status === 401) {
+          dispatch(logoutSuccess());
           navigate('/login');
         }
       }

@@ -8,6 +8,7 @@ import api from '../axios/axios'
 import Cards from '../components/Cards';
 import { MdCreateNewFolder, MdOutlinePendingActions } from "react-icons/md";
 import { FaCheck, FaHeart, FaLeaf } from 'react-icons/fa';
+import { logoutSuccess } from '../redux/user/userSlice';
 const customTheme = {
   base: "flex md:max-w-xl max-w-md items-center rounded-lg md:p-4 p-1 text-gray-500 shadow dark:text-gray-400",
   floating: {
@@ -43,6 +44,10 @@ const Lists = () => {
           
         } catch (error) {
           dispatch(getTodoFailure(error.res?.data.msg))
+          if(error.response?.status === 401) {
+            dispatch(logoutSuccess())
+            navigate('/login');
+          }
         }
       }
   
