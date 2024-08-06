@@ -4,7 +4,6 @@ import { useState } from 'react';
 import { HiInformationCircle } from 'react-icons/hi';
 import { logoutSuccess } from '../redux/user/userSlice';
 import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 
 const customTheme = {
     field: {
@@ -54,7 +53,7 @@ const GenAi = () => {
        {error &&  <Alert color="failure" icon={HiInformationCircle} className='font-semibold font-serif'>
     <span className="font-semibold font-tf">Error: </span> {error} Please sign-in or sing-up.
   </Alert>}
-    <div className='screen max-w-5xl min-w-64 bg-gray-800 text-slate-200 h-[500px] lg:h-[580px] mx-auto rounded-t-3xl shadow-shd p-4 mt-4 space-y-3 overflow-auto dark:bg-black dark:text-gray-400'>
+    <div className='screen max-w-5xl min-w-64 bg-gray-800 text-slate-200 h-[80vh] lg:h-[580px] mx-auto rounded-t-3xl shadow-shd p-4 mt-4 space-y-3 overflow-auto dark:bg-black dark:text-gray-400'>
        <div className="info space-y-2">
         <h1 className='text-2xl font-tf font-semibold'>GENAI built on Gemini</h1>
         <p className='text-lg font-serif'>Ask your questions, problems, and ideas to GENAI !</p>
@@ -81,8 +80,8 @@ const GenAi = () => {
        </div>
     </div>
     <div className="promptBox max-w-5xl min-w-64 mx-auto rounded-b-3xl relative bg-white dark:bg-gray-800">
-        <TextInput theme={customTheme} className='w-[87%]' placeholder='e.g. Write a poem on nature?' sizing="lg" value={prompt} onChange={(e) => setPrompt(e.target.value)} required/>
-        <Button className='absolute top-2 right-3 w-[10%] h-12' disabled={prompt.length < 3 ? true : false} onClick={handleGeneratingData}>GEN</Button>
+        <TextInput theme={customTheme} className='w-[84%] lg:w-[87%]' placeholder='e.g. Write a poem on nature?' sizing="lg" value={prompt} onChange={(e) => setPrompt(e.target.value)} required/>
+        <Button className='absolute top-2 right-3 lg:w-[10%] w-[15%] h-12' disabled={prompt.length < 3 ? true : false} onClick={handleGeneratingData}>GEN</Button>
     </div>
     </>
   )
