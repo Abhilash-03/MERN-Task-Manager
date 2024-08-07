@@ -82,7 +82,7 @@ const googleAuth = async(req, res) => {
 }
 
 const logout = async(req, res) => {
-  res.status(200).clearCookie('auth_token').json({msg: "You are successfully logout"});
+  res.status(200).clearCookie('auth_token', { httpOnly: true, sameSite: 'None', secure: true }).json({msg: "You are successfully logout"});
 }
 
 
