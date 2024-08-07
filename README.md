@@ -2,6 +2,17 @@
 
 This is a Task Manager app that allows users to create, read, update delete, and add to favourite tasks. It is built on the MERN stack (MongoDB, Express, React and Node.js) and it has authorization and authentication features using JWT and bcrypt, for state management I used Redux Toolkit.
 
+## --UPDATED V-2.0--
+
+1. Added `Google Authentication (OAUTH)` Feature using Firebase.
+2. `Changed UI` in Create, Lists, Sign-in/Sign-up Page.
+3. `Added User Profile Page` (It is having user profile image, Username, Email-id and UID).
+4. Added `User Delete Account` Functionality.
+5. Added `GENAI` Page, it's a `AI feature` where you can ask your problems, ideas, solution and etc. to `AI` built on Gemini.
+6. Added `NOTES` option field in Create Page, where you can write your notes along with your task.
+7. Added `Show/Hide` Password Feature in Sign-in/Sign-up Password Field. 
+8. ### `Continue......`
+
 ## Features
 
 - Users can sign up and log in with their email and password.
