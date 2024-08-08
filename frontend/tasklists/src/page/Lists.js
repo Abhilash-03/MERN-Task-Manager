@@ -7,7 +7,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import api from '../axios/axios'
 import Cards from '../components/Cards';
 import { MdCreateNewFolder, MdOutlinePendingActions } from "react-icons/md";
-import { FaCheck, FaHeart, FaLeaf } from 'react-icons/fa';
+import { FaCheck, FaHeart, FaLeaf, FaRunning } from 'react-icons/fa';
 import { logoutSuccess } from '../redux/user/userSlice';
 const customTheme = {
   base: "flex md:max-w-xl max-w-md items-center rounded-lg md:p-4 p-1 text-gray-500 shadow dark:text-gray-400",
@@ -63,7 +63,7 @@ const Lists = () => {
     useEffect(() => {
       handleGetTodos();
       filterTodos(filterName);
-    }, [handleGetTodos, filterName])
+    }, [filterName])
 
     setTimeout(() => {
       dispatch(getTodoFailure(null))
@@ -89,6 +89,10 @@ const Lists = () => {
         <FaCheck className="mr-3 h-4 w-4" />
         Completed
       </Button>
+      <Button color="purple" onClick={() => filterTodos('in-working')}>
+        <FaRunning className="mr-3 h-4 w-4" />
+        In-working
+      </Button>
       <Button color="purple" onClick={() => filterTodos('favourite')}>
         <FaHeart className="mr-3 h-4 w-4" />
         Favourite
@@ -98,6 +102,7 @@ const Lists = () => {
     <Dropdown label={filterName.toUpperCase()} gradientDuoTone={'purpleToBlue'} theme={customTheme} pill>
       <Dropdown.Item icon={FaLeaf} className="font-tf" onClick={() => filterTodos('all')}>All</Dropdown.Item>
       <Dropdown.Item icon={MdOutlinePendingActions} className="font-tf" onClick={() => filterTodos('pending')}>Pending</Dropdown.Item>
+      <Dropdown.Item icon={FaRunning} className="font-tf" onClick={() => filterTodos('in-working')}>In-working</Dropdown.Item>
       <Dropdown.Item icon={FaCheck} className="font-tf" onClick={() => filterTodos('completed')}>Completed</Dropdown.Item>
       <Dropdown.Divider />
       <Dropdown.Item icon={FaHeart} className="font-tf" onClick={() => filterTodos('favourite')}>Favourite</Dropdown.Item>

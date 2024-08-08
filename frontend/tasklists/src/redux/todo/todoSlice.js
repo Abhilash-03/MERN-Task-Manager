@@ -37,11 +37,13 @@ export const todoSlice = createSlice({
      filterTodo: (state, action) => {
       const filterTodoItem = state.lists.filter(item => {
          if(action.payload.type === 'completed') {
-            return item.completed;
+            return item.status === 'completed';
          } else if(action.payload.type === 'favourite') {
             return item.favourite;
          } else if(action.payload.type === 'pending') {
-            return !item.completed
+            return item.status === 'pending'
+         } else if(action.payload.type === 'in-working') {
+            return item.status === 'in-working'
          } 
          return item
       });

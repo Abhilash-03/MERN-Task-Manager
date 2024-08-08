@@ -63,8 +63,8 @@ const Cards = ({ todo, setMessage, handleGetTodos }) => {
   return (
     <div className={`p-3 ${todo.status === 'completed' ? 'bg-[#6868f4] text-gray-800 hover:bg-[#6161ed]' : todo.favourite ? 'bg-[#652fb8] text-slate-200 hover:bg-[#7e48cf] hover:text-gray-900' :  'bg-[#bdbdf5]'} m-3 md:max-w-xl lg:max-w-2xl max-w-md mx-auto w-full text-xl font-semibold font-serif relative shadow-shd dark:shadow-black hover:scale-105 hover:bg-[#9090e3] rounded-lg transition-all duration-200 ease-in`}>
       {
-        todo.favourite ? <FaStar className="absolute -top-2 right-0 h-5 w-5 text-[#dd4be8]" onClick={() => handleAddFavourite(todo._id, false)} />
-        : <FaRegStar className="absolute -top-2 right-0 h-5 w-5 text-[#3838f0]" onClick={() => handleAddFavourite(todo._id, true)}/>
+        todo.favourite ? <FaStar className="absolute -top-2 right-0 h-5 w-5 text-[#dd4be8] cursor-pointer" onClick={() => handleAddFavourite(todo._id, false)} />
+        : <FaRegStar className="absolute -top-2 right-0 h-5 w-5 text-[#3838f0] cursor-pointer" onClick={() => handleAddFavourite(todo._id, true)}/>
      
       }
     <div className="p-1 gap-4 flex flex-col">
