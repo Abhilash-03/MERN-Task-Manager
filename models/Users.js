@@ -7,6 +7,7 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: [true, 'Name is required!'],
         minlength: [3, 'Minimum length should be 3'],
+        unique: true
     },
 
     email: {
@@ -44,7 +45,6 @@ userSchema.methods.jwtCreate =  function(){
 
 userSchema.methods.comparePassword = async function(password){
     const isMatched =  bcrypt.compare(password, this.password);
-
     return isMatched;
 }
 

@@ -1,8 +1,9 @@
 const express = require('express');
-const { deleteAccount } = require('../controllers/user');
+const { deleteAccount, updateUserProfile } = require('../controllers/user');
 const router = express.Router();
 
 router.delete("/deleteAccount/:uid", deleteAccount);
+router.post("/update-profile/:uid", updateUserProfile);
 
 
 module.exports = router;
