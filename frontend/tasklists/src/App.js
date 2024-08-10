@@ -8,6 +8,7 @@ import Lists from "./page/Lists";
 import UserProfile from "./page/UserProfile";
 import NotFound from "./components/NotFound";
 import GenAi from "./page/GenAi";
+import UpdateProfile from "./page/UpdateProfile";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           <Route path="/lists" element={<Lists /> } />
           <Route path="/genai" element={<GenAi /> } />
           <Route path='/user-profile/:uid' element={<UserProfile /> } />
+          <Route path='/update-profile/:uid' element={<UpdateProfile /> } />
           <Route path='/*' element={<NotFound /> } />
         </Routes>
     </main>

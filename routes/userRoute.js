@@ -3,7 +3,7 @@ const { deleteAccount, updateUserProfile } = require('../controllers/user');
 const router = express.Router();
 
 router.delete("/deleteAccount/:uid", deleteAccount);
-router.post("/update-profile/:uid", updateUserProfile);
+router.patch("/update-profile/:uid", updateUserProfile);
 
 
 module.exports = router;

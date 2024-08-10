@@ -7,7 +7,7 @@
 ::-webkit-scrollbar{
   background-color: rgb(110, 110, 239);
   border-radius: 12px;
-  width: 13px;
+  width: 4px;
 }
 
 ::-webkit-scrollbar-thumb{
@@ -18,7 +18,7 @@
 .ul-items::-webkit-scrollbar{
   background-color: rgb(110, 110, 239);
   border-radius: 8px;
-  width: 10px;
+  width: 4px;
 }
 
 .ul-items::-webkit-scrollbar-thumb{

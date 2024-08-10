@@ -117,7 +117,7 @@ const Lists = () => {
       <Toast.Toggle />
     </Toast>
   }
-    <section className='grid grid-cols-1 gap-3 lg:gap-5 md:grid-cols-2 lg:grid-cols-3 mx-5 my-10'>
+    <section className='grid grid-cols-1 gap-3 lg:gap-5 md:grid-cols-2 lg:grid-cols-3 mx-5 my-10 h-[65vh] overflow-y-auto overflow-x-hidden px-3'>
       {filterName === 'all'?
          lists.map(todo => (
           <Cards key={todo._id} todo={todo} setMessage={setMessage} handleGetTodos={handleGetTodos} />

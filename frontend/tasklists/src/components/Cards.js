@@ -61,14 +61,14 @@ const Cards = ({ todo, setMessage, handleGetTodos }) => {
 
 
   return (
-    <div className={`p-3 ${todo.status === 'completed' ? 'bg-[#6868f4] text-gray-800 hover:bg-[#6161ed]' : todo.favourite ? 'bg-[#652fb8] text-slate-200 hover:bg-[#7e48cf] hover:text-gray-900' :  'bg-[#bdbdf5]'} m-3 md:max-w-xl lg:max-w-2xl max-w-md mx-auto w-full text-xl font-semibold font-serif relative shadow-shd dark:shadow-black hover:scale-105 hover:bg-[#9090e3] rounded-lg transition-all duration-200 ease-in`}>
+    <div className={`p-3 ${todo.status === 'completed' ? 'bg-[#6868f4] text-gray-800 hover:bg-[#6161ed]' : todo.favourite ? 'bg-[#652fb8] text-slate-200 hover:bg-[#7e48cf] hover:text-gray-900' :  'bg-[#bdbdf5]'} m-3 md:max-w-xl lg:max-w-2xl max-w-md mx-auto h-[350px] w-full text-xl font-semibold font-serif relative shadow-shd dark:shadow-black hover:scale-105 hover:bg-[#9090e3] rounded-lg transition-all duration-200 ease-in`}>
       {
         todo.favourite ? <FaStar className="absolute -top-2 right-0 h-5 w-5 text-[#dd4be8] cursor-pointer" onClick={() => handleAddFavourite(todo._id, false)} />
         : <FaRegStar className="absolute -top-2 right-0 h-5 w-5 text-[#3838f0] cursor-pointer" onClick={() => handleAddFavourite(todo._id, true)}/>
      
       }
-    <div className="p-1 gap-4 flex flex-col">
-    <Badge color="indigo" icon={HiClock} className="w-2/4 text-sm">
+    <div className="p-1 gap-4 flex  flex-col">
+    <Badge color="indigo" icon={HiClock} className="md:w-2/4 justify-center text-sm">
         {new Date(todo.createdAt).toDateString()}
       </Badge>
       <div className="flex justify-around items-center">
@@ -95,7 +95,7 @@ const Cards = ({ todo, setMessage, handleGetTodos }) => {
         todo.notes && (
           <div className="bg-slate-100 text-gray-700 dark:bg-slate-900 dark:text-slate-200 py-4 px-3 rounded-xl max-w-2xl h-48 w-3/4 ml-3 overflow-y-auto">
             <p className="text-red-400 text-sm p-0">--Notes--</p>
-          <p className="px-2 py-4 font-serif text-lg">{(todo.notes).slice(0, 50)}</p>
+          <p className="px-2 py-4 font-serif text-lg hyphens-auto">{todo.notes}</p>
       </div>
         )
       }

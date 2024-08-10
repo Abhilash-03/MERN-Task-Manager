@@ -1,9 +1,9 @@
 import { Alert, Button, TextInput } from 'flowbite-react'
 import api from '../axios/axios';
 import { useState } from 'react';
-import { HiInformationCircle } from 'react-icons/hi';
+import { HiInformationCircle, HiSparkles } from 'react-icons/hi';
 import { logoutSuccess } from '../redux/user/userSlice';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 const customTheme = {
     field: {
@@ -28,7 +28,7 @@ const GenAi = () => {
     const [question, setQuestion] = useState(null);
     const [error, setError] = useState(null);
     const dispatch = useDispatch();
-
+    const { currentUser } = useSelector(state => state.user);
     const handleGeneratingData = async() => {
         setQuestion(prompt);
          try {
@@ -56,6 +56,7 @@ const GenAi = () => {
     <div className='screen max-w-5xl min-w-64 bg-gray-800 text-slate-200 h-[80vh] lg:h-[580px] mx-auto rounded-t-3xl shadow-shd p-4 mt-4 space-y-3 overflow-auto dark:bg-black dark:text-gray-400'>
        <div className="info space-y-2">
         <h1 className='text-2xl font-tf font-semibold'>GENAI built on Gemini</h1>
+        <h2 className='text-5xl font-tf font-bold text-transparent bg-clip-text bg-gradient-to-b from-blue-600 to-pink-700 inline-flex'><span className='text-pink-500'>{<HiSparkles className='h-8 w-8 '/>}</span> Hello, {currentUser ? currentUser.username : 'there'}!</h2>
         <p className='text-lg font-serif'>Ask your questions, problems, and ideas to GENAI !</p>
        </div>
        <div className="qna space-y-2">

@@ -52,7 +52,7 @@ const Header = () => {
       <Toast.Toggle />
     </Toast>
   }
-    <Navbar fluid className='bg-[#c8c9f4ae] text-gray-800 sticky top-0 z-10' theme={customTheme}>
+    <Navbar fluid className='bg-[#c8c9f4ae] backdrop-blur-sm text-gray-800 sticky top-0 z-10' theme={customTheme}>
       <Link to={'/'}>
       <Navbar.Brand as={'div'}>
         <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-[#9ab9ef] sm:text-xl md:text-4xl font-serif ">Task Manager</span>
@@ -71,16 +71,16 @@ const Header = () => {
           theme={customTheme}
           inline
           label={
-            <Avatar alt="User settings" img={currentUser?.profilePicture} rounded size={'sm'} />
+            <Avatar alt="User settings" img={currentUser?.profilePicture} className='object-cover hover:bg-gray-600 rounded-full h-10 w-10 transition-all duration-300 bg-gray-800' rounded size={'sm'} />
             
           }
         >
           
           <Dropdown.Header>
-            <span className="block text-sm font-semibold font-serif">{currentUser?.username}</span>
+            <span className="block text-sm font-semibold font-serif">@{currentUser?.username}</span>
             <span className="block truncate text-sm font-semibold font-serif">{currentUser?.email}</span>
           </Dropdown.Header>
-          <Link to={`/user-profile/${currentUser._id}`}>
+          <Link to={`/user-profile/${currentUser._id}?tab=profile`}>
           <Dropdown.Item className="text-sm font-semibold font-serif"><HiUser className="mr-2 h-5 w-5" />Profile</Dropdown.Item>
           </Link>
           <Dropdown.Divider />
