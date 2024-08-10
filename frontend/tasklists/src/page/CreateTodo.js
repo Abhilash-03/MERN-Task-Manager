@@ -7,6 +7,8 @@ import api from "../axios/axios";
 import { HiCheck, HiInformationCircle } from "react-icons/hi";
 import { MdAdd } from "react-icons/md";
 import { FaPenFancy } from "react-icons/fa";
+import { Link } from "react-router-dom";
+import AIButton from "../components/AIButton";
 
 const customTheme = {
   field: {
@@ -135,7 +137,7 @@ const CreateTodo = () => {
             Create
           </button>
         </form>
-        <div className="lg:w-2/4 w-full flex flex-col items-center justify-center bg-[#bdbdf5] dark:bg-[#4d4d75]  min-h-3/4 mx-5 my-10">
+        <div className="lg:w-2/4 w-full flex flex-col items-center justify-center bg-[#bdbdf5] dark:bg-[#212147] rounded-2xl min-h-3/4 mx-5 my-10">
           <h3 className="text-2xl md:text-3xl font-serif font-semibold mb-7 mt-4 dark:text-[#ececec]">
             Lists
           </h3>
@@ -143,6 +145,10 @@ const CreateTodo = () => {
           <TodoList />
         </div>
       </section>
+        {/* Ask genai button */}
+        <Link to={'/genai'}>
+          <AIButton right={7} bottom={10} />
+        </Link>
     </>
   );
 };

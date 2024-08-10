@@ -153,9 +153,9 @@ const UpdateProfile = () => {
            <TextInput type={showPassword ? "text" : "password"} sizing={'lg'} id='password' placeholder='Change password' onChange={handleOnChange} className='' icon={MdPassword} />
            <span className="absolute top-3 right-3 text-xl cursor-pointer h-9 w-9 hover:text-blue-500 hover:bg-gray-800 dark:text-white hover:rounded-full p-2" onClick={() => setShowPassword(!showPassword)}>{showPassword ? <HiEye/> :  <HiEyeOff/> }</span>
         </div>
-        <Button color={'dark'} onClick={handleUpdateUser} className='w-full dark:bg-indigo-900' size={'lg'} disabled={imageFileUploading}>
+        <Button color={'dark'} onClick={handleUpdateUser} className='w-full dark:bg-indigo-900' size={'lg'} disabled={loading || imageFileUploading ? true : false}>
         <FaSave className="mr-2 h-5 w-5" />
-          Save changes</Button>
+          {loading ? "Saving..." : "Save changes"}</Button>
 
         {updateUserSuccess && (
           <Alert color={'success'} className="mt-5 font-semibold">

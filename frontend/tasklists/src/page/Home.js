@@ -5,6 +5,7 @@ import { MdLockPerson } from "react-icons/md";
 import { FaThumbsUp } from "react-icons/fa6";
 import { useSelector } from 'react-redux';
 import homebg from '../assets/home-img.jpg';
+import AIButton from '../components/AIButton';
 
 const Home = () => {
   const {currentUser} = useSelector(state => state.user);
@@ -33,6 +34,10 @@ const Home = () => {
          <img src={homebg} className='md:rounded-full rounded-none w-[800px]' alt="home-img" />
          </div>
        </div>
+       {/* Ask genai button */}
+       <Link to={'/genai'}>
+          <AIButton />
+        </Link>
     </section>
   )
 }
