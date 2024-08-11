@@ -61,20 +61,20 @@ const Cards = ({ todo, setMessage, handleGetTodos }) => {
 
 
   return (
-    <div className={`p-3 ${todo.status === 'completed' ? 'bg-[#6868f4] text-gray-800 hover:bg-[#6161ed]' : todo.favourite ? 'bg-[#652fb8] text-slate-200 hover:bg-[#7e48cf] hover:text-gray-900' :  'bg-[#bdbdf5]'} m-3 md:max-w-xl lg:max-w-2xl max-w-md mx-auto h-[350px] w-full text-xl font-semibold font-serif relative shadow-shd dark:shadow-black hover:scale-105 hover:bg-[#9090e3] rounded-lg transition-all duration-200 ease-in`}>
+    <div className={`p-3 ${todo.status === 'completed' ? 'bg-[#6868f4] text-gray-800 hover:bg-[#6161ed]' : todo.favourite ? 'bg-[#652fb8] text-slate-200 hover:bg-[#7e48cf] hover:text-gray-900' :  'bg-[#bdbdf5]'} dark:bg-gray-800 dark:text-white m-3 md:max-w-xl lg:max-w-2xl max-w-md mx-auto md:h-[350px] w-full text-xl font-semibold font-serif relative shadow-shd dark:shadow-black hover:scale-95 hover:bg-[#9090e3] rounded-lg transition-all duration-200 ease-in`}>
       {
         todo.favourite ? <FaStar className="absolute -top-2 right-0 h-5 w-5 text-[#dd4be8] cursor-pointer" onClick={() => handleAddFavourite(todo._id, false)} />
         : <FaRegStar className="absolute -top-2 right-0 h-5 w-5 text-[#3838f0] cursor-pointer" onClick={() => handleAddFavourite(todo._id, true)}/>
      
       }
-    <div className="p-1 gap-4 flex  flex-col">
+    <div className="p-1 gap-4 flex flex-col">
     <Badge color="indigo" icon={HiClock} className="md:w-2/4 justify-center text-sm">
         {new Date(todo.createdAt).toDateString()}
       </Badge>
-      <div className="flex justify-around items-center">
+      <div className="flex md:flex-row flex-col justify-around items-center">
 
-      <div className={`flex flex-col items-center justify-center capitalize font-tf ${todo.notes ? 'w-2/4': 'w-full'}`}>
-        <h1 className="text-2xl md:text-xl xl:text-2xl font-semibold">{todo.name}</h1>
+      <div className={`flex flex-col items-center justify-center capitalize font-tf ${todo.notes ? 'md:w-2/4': 'w-full'}`}>
+        <h1 className="text-2xl md:text-xl xl:text-2xl font-semibold text-center">{todo.name}</h1>
         {
           todo.status === 'pending' ? (
             <Badge color={'red'} icon={MdOutlinePendingActions} className="my-2">
@@ -93,9 +93,9 @@ const Cards = ({ todo, setMessage, handleGetTodos }) => {
       </div>
       {
         todo.notes && (
-          <div className="bg-slate-100 text-gray-700 dark:bg-slate-900 dark:text-slate-200 py-4 px-3 rounded-xl max-w-2xl h-48 w-3/4 ml-3 overflow-y-auto">
+          <div className="bg-slate-100 text-gray-700 dark:bg-slate-900 dark:text-slate-200 py-4 px-3 rounded-xl max-w-2xl h-48 md:w-3/4 w-5/6 ml-3 overflow-y-auto">
             <p className="text-red-400 text-sm p-0">--Notes--</p>
-          <p className="px-2 py-4 font-serif text-lg hyphens-auto">{todo.notes}</p>
+          <p className="px-2 py-4 font-serif md:text-lg text-base hyphens-auto">{todo.notes}</p>
       </div>
         )
       }

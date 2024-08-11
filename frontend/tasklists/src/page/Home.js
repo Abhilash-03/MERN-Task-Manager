@@ -32,8 +32,8 @@ const Home = () => {
          </div>
         </div>
        <div className='home-bg md:mr-4 mr-0 mt-2 md:w-1/3 overflow-hidden'>
-         <img src={homebg} className='w-[800px] dark:hidden hover:scale-110 transition-all duration-300' alt="home-img" />
-         <img src={darkImg} className='w-[800px] hidden dark:block hover:scale-110 transition-all duration-300' alt="dark-home-img" />
+         <img src={homebg} className='md:w-[800px] w-[400px] dark:hidden hover:scale-110 transition-all duration-300' alt="home-img" />
+         <img src={darkImg} className='md:w-[800px] w-[400px] hidden dark:block hover:scale-110 transition-all duration-300' alt="dark-home-img" />
          </div>
        </div>
        {/* Ask genai button */}

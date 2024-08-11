@@ -10,8 +10,12 @@ This is a Task Manager app that allows users to create, read, update delete, and
 4. Added `User Delete Account` Functionality.
 5. Added `GENAI` Page, it's a `AI feature` where you can ask your problems, ideas, solution and etc. to `AI` built on Gemini.
 6. Added `NOTES` option field in Create Page, where you can write your notes along with your task.
-7. Added `Show/Hide` Password Feature in Sign-in/Sign-up Password Field. 
-8. ### `Continue......`
+7. Added `STATUS (pending, in-working, completed)` option in todo-task.
+8. Added `Show/Hide` Password Feature in Sign-in/Sign-up Password Field. 
+9. `Updated` Home page in dark mode.
+10. `Add GenAI button` on Home and Create Page.
+11. `Added Update User Profile feature` (update user profile image, username, email and password).
+12.  ### `Continue......`
 
 ## Features
 
