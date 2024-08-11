@@ -1,6 +1,6 @@
 import { Alert, Button } from 'flowbite-react';
 import React, { useState } from 'react'
-import { FaDeleteLeft } from 'react-icons/fa6';
+import { TiUserDelete } from "react-icons/ti";
 import { HiInformationCircle, HiLogout } from 'react-icons/hi';
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom';
@@ -56,11 +56,11 @@ const UserProfile = () => {
   
 
         <div className="flex items-center justify-between flex-wrap-reverse gap-2">
-      <Button gradientDuoTone="pinkToOrange" className='font-serif font-bold w-full sm:w-auto' onClick={() => setOpenModal(true)}>
-        <FaDeleteLeft className="mr-2 h-5 w-5" />
+      <Button color={'failure'} outline className='font-serif font-bold w-full sm:w-auto' onClick={() => setOpenModal(true)}>
+        <TiUserDelete className="mr-2 h-5 w-5" />
         Delete Account
       </Button>
-      <Button gradientDuoTone="purpleToBlue" className='font-serif font-bold w-full sm:w-auto' onClick={handleLogout}>
+      <Button color={'blue'} outline className='font-serif font-bold w-full sm:w-auto' onClick={handleLogout}>
         Logout
         <HiLogout className="ml-2 h-5 w-5" />
       </Button>

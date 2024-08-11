@@ -147,7 +147,7 @@ const CreateTodo = () => {
       </section>
         {/* Ask genai button */}
         <Link to={'/genai'}>
-          <AIButton right={7} bottom={10} />
+          <AIButton />
         </Link>
     </>
   );

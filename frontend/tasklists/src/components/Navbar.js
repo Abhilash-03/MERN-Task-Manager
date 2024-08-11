@@ -55,7 +55,7 @@ const Header = () => {
     <Navbar fluid className='bg-[#c8c9f4ae] backdrop-blur-sm text-gray-800 sticky top-0 z-10' theme={customTheme}>
       <Link to={'/'}>
       <Navbar.Brand as={'div'}>
-        <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-[#9ab9ef] sm:text-xl md:text-4xl font-serif ">Task Manager</span>
+        <span className="self-center whitespace-nowrap text-xl font-semibold sm:text-xl md:text-4xl font-serif dark:text-[#2eadbe]">Task Manager</span>
       </Navbar.Brand>
       </Link>
       <div className="flex items-center md:mx-4 md:space-x-4 space-x-2 md:order-2">

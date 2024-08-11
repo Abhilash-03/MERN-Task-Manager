@@ -24,7 +24,7 @@ const UpdateProfile = () => {
     const [updateUser, setUpdateUser] = useState({});
     const [showPassword, setShowPassword] = useState(false);
 
-    const {currentUser, loading, error} = useSelector(state => state.user);
+    const {currentUser, loading} = useSelector(state => state.user);
     const {uid} = useParams();
     const fileRef = useRef(null);
     const dispatch = useDispatch();
@@ -142,7 +142,7 @@ const UpdateProfile = () => {
             <FileInput className='hidden' ref={fileRef} onChange={handleImageFile} />
         </div>
  
-        <div className='max-w-2xl md:mx-auto font-tf space-y-3 bg-blue-400 px-5 py-6 rounded-2xl mx-4'>
+        <div className='max-w-2xl md:mx-auto font-tf space-y-3 bg-blue-400 dark:bg-[#09234d] px-5 py-6 rounded-2xl mx-4'>
         <div>
            <TextInput type='text' sizing={'lg'} id='username' placeholder='Change username' defaultValue={currentUser.username || updateUser.username} onChange={handleOnChange} className='' icon={HiUser} />
         </div>
@@ -153,7 +153,7 @@ const UpdateProfile = () => {
            <TextInput type={showPassword ? "text" : "password"} sizing={'lg'} id='password' placeholder='Change password' onChange={handleOnChange} className='' icon={MdPassword} />
            <span className="absolute top-3 right-3 text-xl cursor-pointer h-9 w-9 hover:text-blue-500 hover:bg-gray-800 dark:text-white hover:rounded-full p-2" onClick={() => setShowPassword(!showPassword)}>{showPassword ? <HiEye/> :  <HiEyeOff/> }</span>
         </div>
-        <Button color={'dark'} onClick={handleUpdateUser} className='w-full dark:bg-indigo-900' size={'lg'} disabled={loading || imageFileUploading ? true : false}>
+        <Button color={'blue'} onClick={handleUpdateUser} className='w-full' size={'lg'} disabled={loading || imageFileUploading ? true : false}>
         <FaSave className="mr-2 h-5 w-5" />
           {loading ? "Saving..." : "Save changes"}</Button>
 

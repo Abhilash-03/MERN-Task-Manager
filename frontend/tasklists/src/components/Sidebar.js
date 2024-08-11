@@ -29,12 +29,12 @@ const SideBar = () => {
         currentUser &&
       <Sidebar.ItemGroup>
         <Link to={`/user-profile/${currentUser._id}?tab=profile`}>
-        <Sidebar.Item icon={HiUser} as='div' className={`${tab === "profile" ? "bg-black text-gray-200" : ""} my-2`}>
+        <Sidebar.Item icon={HiUser} as='div' className={`${tab === "profile" ? "bg-black text-gray-200 hover:text-gray-600" : ""} my-2`}>
           Profile
         </Sidebar.Item>
         </Link>
         <Link to={`/update-profile/${currentUser._id}?tab=update`}>
-        <Sidebar.Item icon={MdOutlineUpdate} as='div' className={`${tab === "update" ? "bg-black text-gray-200" : ""} my-2`}>
+        <Sidebar.Item icon={MdOutlineUpdate} as='div' className={`${tab === "update" ? "bg-black text-gray-200 hover:text-gray-600" : ""} my-2`}>
           Update Profile
         </Sidebar.Item>
         </Link>
