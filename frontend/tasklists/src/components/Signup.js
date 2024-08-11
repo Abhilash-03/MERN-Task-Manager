@@ -66,7 +66,7 @@ const Signup = () => {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="flex max-w-xl mx-auto flex-col gap-4 p-4 bg-[#a2a2e3] dark:bg-[#4d4d75] dark:text-[#ece9f3] my-10 rounded-xl">
+    <form onSubmit={handleSubmit} className="flex max-w-xl mx-auto flex-col gap-4 p-4 bg-[#a2a2e3] dark:bg-[#262665] dark:text-[#ece9f3] my-10 rounded-xl">
           {error &&   <Alert color="failure" icon={HiInformationCircle} className="font-semibold font-serif">
       <span className="font-semibold font-tf">Error:</span> '{error}' is already taken or using by other user.
     </Alert>}
@@ -80,7 +80,7 @@ const Signup = () => {
     </Toast>
     }
       <h3 className="text-4xl font-bold font-tf text-center">Sign-up</h3>
-      <p className="text-md font-semibold text-center">Already have an account <Link to={'/login'} className="text-blue-800 underline dark:text-[#8dbebe] dark:hover:text-blue-300 hover:text-blue-500">SingIn</Link>?</p>
+      <p className="text-md font-semibold text-center">Already have an account <Link to={'/login'} className="text-blue-800 underline dark:text-[#8dbebe] dark:hover:text-blue-300 hover:text-blue-500">Sign-in</Link>?</p>
       <div>
         <div className="mb-2 block">
           <Label htmlFor="username" className="md:text-xl text-lg font-serif font-bold" value="Your username" />
@@ -100,12 +100,12 @@ const Signup = () => {
         <TextInput id="password" sizing={'lg'} icon={RiLockPasswordFill} color={customTheme} theme={customTheme} placeholder="********" type={showPassword ? "text" : "password"} onChange={handleChange} required />
         <span className="absolute top-12 right-3 text-xl cursor-pointer h-9 w-9 hover:text-blue-300 hover:bg-gray-600 hover:rounded-full p-2" onClick={() => setShowPassword(!showPassword)}>{showPassword ? <HiEye/> :  <HiEyeOff/> }</span>
       </div>
-      <Button type="submit" gradientMonochrome={'purple'}  theme={customTheme} disabled={loading} size={'lg'} pill>{loading ? <> <Spinner aria-label="Alternate spinner button example" size="sm" />
-        <span className="pl-3">Processing...</span> </> : 'Singup'} <span className="ml-2">{<FiLogIn/>}</span></Button>
+      <Button type="submit" color={'blue'}  theme={customTheme} disabled={loading} size={'lg'} pill>{loading ? <> <Spinner aria-label="Alternate spinner button example" size="sm" />
+        <span className="pl-3">Processing...</span> </> : 'Signup'} <span className="ml-2">{<FiLogIn/>}</span></Button>
 
            {/* Google Option */}
      <div className="inline-flex items-center justify-center w-full">
-    <hr className="w-64 h-px my-8 bg-gray-200 border-0 dark:bg-gray-700"/>
+    <hr className="w-64 h-px my-4 bg-gray-200 border-0 dark:bg-gray-700"/>
     <span className="absolute px-3 font-medium text-gray-900 -translate-x-1/2 bg-white left-1/2 dark:text-white dark:bg-gray-900">or</span>
     </div>
      <OAuth />

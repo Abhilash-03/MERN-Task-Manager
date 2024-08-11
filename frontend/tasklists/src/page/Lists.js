@@ -117,7 +117,7 @@ const Lists = () => {
       <Toast.Toggle />
     </Toast>
   }
-    <section className='grid grid-cols-1 gap-3 lg:gap-5 md:grid-cols-2 lg:grid-cols-3 mx-5 my-10 h-[65vh] overflow-y-auto overflow-x-hidden px-3'>
+    <section className={`grid grid-cols-1 gap-3 lg:gap-5 md:grid-cols-2 lg:grid-cols-3 mx-5 my-10 ${lists.length > 0 && "h-[65vh]"} overflow-y-auto overflow-x-hidden px-3`}>
       {filterName === 'all'?
          lists.map(todo => (
           <Cards key={todo._id} todo={todo} setMessage={setMessage} handleGetTodos={handleGetTodos} />
@@ -132,8 +132,8 @@ const Lists = () => {
     </section>
     {
       lists.length === 0 && (
-        <div className='flex items-center justify-center  bg-[#7c7ced] sm:w-2/4 w-full mx-auto py-4 flex-col shadow-shd dark:shadow-lg dark:shadow-white'>
-        <h1 className='sm:text-2xl text-base font-bold font-tf flex items-center justify-center p-3 text-gray-800'>Todo list is empty, create a new one.</h1>
+        <div className='flex items-center justify-center bg-[#7c7ced] sm:w-3/4 w-full mx-auto py-4 flex-col shadow-shd dark:shadow-lg dark:bg-pink-500 rounded-2xl'>
+        <h1 className='sm:text-2xl text-lg font-bold font-tf flex items-center justify-center p-3 text-gray-800'>Todo list is empty, create a new one.</h1>
         <Link to={'/create'}>
         <Button  gradientMonochrome="purple" className='my-4 font-tf font-bold' size={'lg'} pill>
           <MdCreateNewFolder className="mr-2 h-5 w-5" />
