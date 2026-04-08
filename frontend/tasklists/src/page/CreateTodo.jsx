@@ -412,8 +412,8 @@ const CreateTodo = () => {
                       </div>
 
                       {/* Action Buttons */}
-                      <div className="flex flex-col sm:flex-row gap-3 pt-2">
-                        <Button type="submit" size="lg" className="flex-1 h-12 sm:h-14 text-base sm:text-lg rounded-xl shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/30 transition-all">
+                      <div className="flex flex-col sm:flex-row gap-3">
+                        <Button type="submit" size="lg" className="flex-1 h-12 sm:h-14 text-base sm:text-lg rounded-xl shadow-lg shadow-primary/25 py-1.5 hover:shadow-xl hover:shadow-primary/30 transition-all">
                           <Plus className="mr-2 h-5 w-5" />
                           Create Task
                         </Button>

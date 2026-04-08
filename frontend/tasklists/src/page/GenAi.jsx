@@ -147,15 +147,15 @@ const GenAi = () => {
           value={prompt}
           onChange={(e) => setPrompt(e.target.value)}
           onKeyPress={handleKeyPress}
-          className="h-14 pr-24 text-base"
+          className="h-14 pr-20 sm:pr-32 text-base"
         />
         <Button
-          className="absolute right-2 top-2 h-10"
+          className="absolute right-2 top-2 h-10 px-3 sm:px-4"
           disabled={prompt.length < 3 || loading}
           onClick={handleGeneratingData}
         >
-          <Send className="h-4 w-4 mr-2" />
-          Send
+          <Send className="h-4 w-4 sm:mr-2" />
+          <span className="hidden sm:inline">Send</span>
         </Button>
       </div>
     </div>

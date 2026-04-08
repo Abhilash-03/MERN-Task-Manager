@@ -184,7 +184,7 @@ const EditModal = ({ setOpenModal, openModal, todo, setMessage, handleGetTodos }
           </div>
         </div>
 
-        <DialogFooter>
+        <DialogFooter className="gap-3 sm:gap-2">
           <Button variant="outline" onClick={handleClose}>
             Cancel
           </Button>
