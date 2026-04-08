@@ -8,7 +8,7 @@ const todoSchema = new mongoose.Schema({
     },
     notes: {
         type: String,
-        maxlength: [150, 'You can only write upto 150 characters'],
+        maxlength: [500, 'You can only write upto 500 characters'],
     },
     status: {
         type: String,
