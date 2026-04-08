@@ -1,8 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=Martian+Mono&family=Merriweather&family=Roboto&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-@import url('https://fonts.googleapis.com/css2?family=Martian+Mono&family=Merriweather&family=Roboto&display=swap');
 
 ::-webkit-scrollbar{
   background-color: rgb(110, 110, 239);
