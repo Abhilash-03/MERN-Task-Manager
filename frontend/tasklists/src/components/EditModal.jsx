@@ -1,143 +1,200 @@
-import { Button, Label, Modal, Select, Textarea, TextInput } from 'flowbite-react'
-import React, { useState } from 'react'
-import api from '../axios/axios'
-import { useDispatch } from 'react-redux';
-import { updateTodoFailure } from '../redux/todo/todoSlice';
+import { useState } from "react"
+import { useDispatch } from "react-redux"
+import { Loader2, Scissors, AlertCircle } from "lucide-react"
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { updateTodoFailure } from "@/redux/todo/todoSlice"
+import api from "@/axios/axios"
+import { cn } from "@/lib/utils"
 
-const customTheme = {
-    field: {
-        colors: {
-            gray: "bg-gray-50 border-gray-300 text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500 text-2xl",
-        },
-    input: {
-        sizes: {
-            lg: "sm:text-md p-4 font-semibold font-tf rounded-full dark:text-gray-700"
-          },
-          withAddon: {
-            "off": "rounded-2xl"
-          },
-    },
-  },
-    size: {
-      lg: "text-xl font-serif px-5 py-2.5"
-    },
-
-    show: {
-      on: "flex bg-gray-900 bg-opacity-10 dark:bg-opacity-80",
-      off: "hidden"
-    },
-    content: {
-        base: "relative h-full md:bg-indigo-300 bg-none  w-full p-4 md:h-auto",
-        inner: "relative rounded-lg bg-white shadow dark:bg-gray-700 flex flex-col max-h-[90dvh]"
-      },
-      body: {
-        base: "p-6 flex-1 bg-indigo-200 overflow-auto",
-        popup: "pt-0"
-      },
-      header: {
-        base: "flex items-start bg-indigo-400 justify-between text-gray-800 rounded-t dark:border-gray-600 dark:bg-slate-600 border-b p-5",
-        popup: "p-2 border-b-0",
-        title: "text-xl font-medium text-green-900 dark:text-gray-200 dark:text-white",
-        close: {
-          base: "ml-auto inline-flex items-center rounded-lg bg-transparent p-1.5 text-sm text-gray-700 hover:bg-gray-200 font-bold hover:text-gray-900 dark:hover:bg-gray-600 dark:hover:text-white",
-          icon: "h-5 w-5 font-bold"
-        }
-      },
-  };
-
-const EditModal = ({ setOpenModal, openModal, todo, setMessage, handleGetTodos}) => {
+const EditModal = ({ setOpenModal, openModal, todo, setMessage, handleGetTodos }) => {
   const [editFormData, setEditFormData] = useState({
+    name: todo.name,
+    notes: todo.notes,
+    status: todo.status,
+  })
+  const [loading, setLoading] = useState(false)
+  const [breakdownLoading, setBreakdownLoading] = useState(false)
+  const [breakdownError, setBreakdownError] = useState("")
+  const dispatch = useDispatch()
+
+  const handleClose = () => {
+    setOpenModal(false)
+    setEditFormData({
       name: todo.name,
       notes: todo.notes,
-      status: todo.status
-  });
-  const dispatch = useDispatch();
-  function onCloseModal() {
-    setOpenModal(false);
-    setEditFormData({
-        name: todo.name,
-        notes: todo.notes,
-        status: todo.status
-    });
+      status: todo.status,
+    })
   }
 
-  const handleUpdateTodo = async(id) => {
-    try{
-     const response = await api.patch(`/api/v2/todos/${id}`, editFormData);
-     if(response) {
-      handleGetTodos();
-      setMessage(response.data.msg)
-      setOpenModal(false);
-      setTimeout(() => {
-       setMessage('')
-      }, 1700);
-     } else {
+  const handleUpdateTodo = async (id) => {
+    setLoading(true)
+    try {
+      const response = await api.patch(`/api/v2/todos/${id}`, editFormData)
+      if (response) {
+        handleGetTodos()
+        setMessage(response.data.msg)
+        setOpenModal(false)
+      } else {
         dispatch(updateTodoFailure("Something went wrong!"))
-     }
-    } catch(error) {
-       dispatch(updateTodoFailure(error.response?.data?.msg))
+      }
+    } catch (error) {
+      dispatch(updateTodoFailure(error.response?.data?.msg))
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const handleBreakdownTask = async () => {
+    if (!editFormData.name || editFormData.name.length < 3) return
+    setBreakdownLoading(true)
+    setBreakdownError("")
+    try {
+      console.log("Calling breakdown API...")
+      const response = await api.post('/api/v1/ai/breakdown', { 
+        taskName: editFormData.name,
+        taskNotes: editFormData.notes
+      })
+      console.log("Breakdown response:", response.data)
+      if (response.data?.subtasks && response.data.subtasks.length > 0) {
+        // Format subtasks as bullet points for notes
+        const formattedNotes = response.data.subtasks
+          .map(s => `• ${s.title}`)
+          .join('\n')
+        setEditFormData(prev => ({ ...prev, notes: formattedNotes }))
+      } else {
+        setBreakdownError("No subtasks generated. Try a more descriptive task name.")
+      }
+    } catch (error) {
+      console.error("Failed to breakdown task:", error)
+      setBreakdownError(error.response?.data?.msg || "Failed to generate subtasks. Please try again.")
+    } finally {
+      setBreakdownLoading(false)
     }
   }
 
   return (
-    <Modal show={openModal} theme={customTheme} size="md" onClose={onCloseModal} className='' popup>
-    <Modal.Header />
-    <Modal.Body>
-      <div className="space-y-6">
-        <h3 className="text-2xl font-bold font-tf">Edit Todo</h3>
-        <div>
-          <div className="mb-2 block">
-            <Label htmlFor="name" value="Edit Name" className='text-lg font-serif font-bold' />
+    <Dialog open={openModal} onOpenChange={handleClose}>
+      <DialogContent className="sm:max-w-[500px] max-h-[90vh] overflow-y-auto">
+        <DialogHeader>
+          <DialogTitle>Edit Task</DialogTitle>
+          <DialogDescription>
+            Make changes to your task. Click save when you're done.
+          </DialogDescription>
+        </DialogHeader>
+
+        <div className="space-y-4 py-4">
+          {/* Name Input */}
+          <div className="space-y-2">
+            <Label htmlFor="name">Task Name</Label>
+            <Input
+              id="name"
+              value={editFormData.name}
+              onChange={(e) =>
+                setEditFormData({ ...editFormData, name: e.target.value })
+              }
+              maxLength={40}
+              placeholder="Enter task name"
+            />
           </div>
-          <TextInput
-            id="name"
-            placeholder="Edit name"
-            value={editFormData.name}
-            onChange={(e) => setEditFormData({...editFormData, name: e.target.value})}
-            required
-            theme={customTheme}
-            sizing={'lg'}
-            maxLength={'40'}
-          />
-        </div>
-        <div>
-          <div className="mb-2 block">
-            <Label htmlFor="notes" value="Edit Notes" className='text-lg font-serif font-bold' />
+
+          {/* Notes Input */}
+          <div className="space-y-2">
+            <div className="flex items-center justify-between">
+              <Label htmlFor="notes">Notes</Label>
+              <span className="text-xs text-muted-foreground">
+                {editFormData.notes?.length || 0}/500
+              </span>
+            </div>
+            <textarea
+              id="notes"
+              value={editFormData.notes}
+              onChange={(e) =>
+                setEditFormData({ ...editFormData, notes: e.target.value })
+              }
+              rows={4}
+              maxLength={500}
+              placeholder="Add any notes..."
+              className={cn(
+                "flex w-full rounded-md border border-input bg-background px-3 py-2 text-sm",
+                "ring-offset-background placeholder:text-muted-foreground",
+                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+                "disabled:cursor-not-allowed disabled:opacity-50 resize-none"
+              )}
+            />
           </div>
-          <Textarea
-            id="notes"
-            placeholder="Edit notes"
-            value={editFormData.notes}
-            onChange={(e) => setEditFormData({...editFormData, notes: e.target.value})}
-            className='sm:text-md p-4 font-semibold font-tf rounded-2xl dark:text-gray-700'
-            sizing={'lg'}
-            rows={4}
-            maxLength={'150'}
-          ></Textarea>
-        </div>
-        <div>
-          <div className="mb-2 block">
-            <Label htmlFor="notes" value="Edit Status" className='text-lg font-serif font-bold' />
+
+          {/* Status Select */}
+          <div className="space-y-2">
+            <Label htmlFor="status">Status</Label>
+            <select
+              id="status"
+              value={editFormData.status}
+              onChange={(e) =>
+                setEditFormData({ ...editFormData, status: e.target.value })
+              }
+              className={cn(
+                "flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm",
+                "ring-offset-background focus-visible:outline-none focus-visible:ring-2",
+                "focus-visible:ring-ring focus-visible:ring-offset-2"
+              )}
+            >
+              <option value="pending">Pending</option>
+              <option value="in-working">In Progress</option>
+              <option value="completed">Completed</option>
+            </select>
           </div>
-          <Select
-            id="status"
-            value={editFormData.status}
-            onChange={(e) => setEditFormData({...editFormData, status: e.target.value})}
-            className='sm:text-md font-semibold font-tf rounded-2xl dark:text-gray-700'
-            sizing={'lg'}
-          >
-            <option value="pending">Pending</option>
-            <option value="in-working">In-working</option>
-            <option value="completed">Completed</option>
-          </Select>
+
+          {/* AI Breakdown Button */}
+          <div className="pt-2 space-y-2">
+            <Button 
+              type="button"
+              variant="outline"
+              className="w-full border-cyan-500/30 hover:bg-cyan-500/10 text-cyan-600"
+              onClick={handleBreakdownTask}
+              disabled={!editFormData.name || editFormData.name.length < 3 || breakdownLoading}
+            >
+              {breakdownLoading ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Breaking down...
+                </>
+              ) : (
+                <>
+                  <Scissors className="mr-2 h-4 w-4" />
+                  Break into Subtasks
+                </>
+              )}
+            </Button>
+            {breakdownError && (
+              <div className="flex items-center gap-2 text-sm text-destructive">
+                <AlertCircle className="h-4 w-4" />
+                {breakdownError}
+              </div>
+            )}
+          </div>
         </div>
-       <div className='flex items-center justify-between flex-wrap'>
-        <Button gradientMonochrome={'info'} onClick={onCloseModal} pill>Cancel</Button>
-        <Button gradientMonochrome={'success'} pill onClick={() => handleUpdateTodo(todo._id)}>Save</Button>
-       </div>
-      </div>
-    </Modal.Body>
-  </Modal>
+
+        <DialogFooter>
+          <Button variant="outline" onClick={handleClose}>
+            Cancel
+          </Button>
+          <Button onClick={() => handleUpdateTodo(todo._id)} disabled={loading}>
+            {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+            Save Changes
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   )
 }
 

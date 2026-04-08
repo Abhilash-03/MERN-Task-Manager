@@ -1,47 +1,57 @@
-import { HiUser } from 'react-icons/hi'
-import { Sidebar } from "flowbite-react";
-import { useSelector } from 'react-redux';
-import { MdOutlineUpdate } from 'react-icons/md';
-import { Link, useLocation } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-
-const customTheme = {
-   root: {
-       inner: "h-full overflow-y-auto overflow-x-hidden lg:fixed rounded bg-indigo-300 px-3 py-4 dark:bg-gray-800"
-   }
-}
+import { User, Settings } from "lucide-react"
+import { Link, useLocation } from "react-router-dom"
+import { useSelector } from "react-redux"
+import { useEffect, useState } from "react"
+import { cn } from "@/lib/utils"
 
 const SideBar = () => {
-    const { currentUser } = useSelector(state => state.user);
-    const location = useLocation();
-    const [tab, setTab] = useState('');
+  const { currentUser } = useSelector((state) => state.user)
+  const location = useLocation()
+  const [tab, setTab] = useState("")
 
-    useEffect(() => {
-      const urlParams = new URLSearchParams(location.search);
-      const tabFromUrl = urlParams.get('tab');
-      setTab(tabFromUrl);
-    }, [location.search])
+  useEffect(() => {
+    const urlParams = new URLSearchParams(location.search)
+    const tabFromUrl = urlParams.get("tab")
+    setTab(tabFromUrl)
+  }, [location.search])
+
+  if (!currentUser) return null
+
+  const navItems = [
+    {
+      label: "Profile",
+      icon: User,
+      href: `/user-profile/${currentUser._id}?tab=profile`,
+      tab: "profile",
+    },
+    {
+      label: "Update Profile",
+      icon: Settings,
+      href: `/update-profile/${currentUser._id}?tab=update`,
+      tab: "update",
+    },
+  ]
 
   return (
-    <Sidebar aria-label="Default sidebar example" theme={customTheme} className='lg:h-screen w-full lg:w-60'>
-    <Sidebar.Items className='font-tf'>
-      {
-        currentUser &&
-      <Sidebar.ItemGroup>
-        <Link to={`/user-profile/${currentUser._id}?tab=profile`}>
-        <Sidebar.Item icon={HiUser} as='div' className={`${tab === "profile" ? "bg-black text-gray-200 hover:text-gray-600" : ""} my-2`}>
-          Profile
-        </Sidebar.Item>
-        </Link>
-        <Link to={`/update-profile/${currentUser._id}?tab=update`}>
-        <Sidebar.Item icon={MdOutlineUpdate} as='div' className={`${tab === "update" ? "bg-black text-gray-200 hover:text-gray-600" : ""} my-2`}>
-          Update Profile
-        </Sidebar.Item>
-        </Link>
-      </Sidebar.ItemGroup>
-      }
-    </Sidebar.Items>
-  </Sidebar>
+    <aside className="w-full lg:w-60 lg:min-h-screen border-b lg:border-r lg:border-b-0 bg-muted/30">
+      <nav className="flex lg:flex-col gap-1 p-4">
+        {navItems.map((item) => (
+          <Link key={item.tab} to={item.href}>
+            <div
+              className={cn(
+                "flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium transition-colors",
+                tab === item.tab
+                  ? "bg-primary text-primary-foreground"
+                  : "text-muted-foreground hover:bg-muted hover:text-foreground"
+              )}
+            >
+              <item.icon className="h-5 w-5" />
+              {item.label}
+            </div>
+          </Link>
+        ))}
+      </nav>
+    </aside>
   )
 }
 

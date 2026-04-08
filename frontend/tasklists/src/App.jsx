@@ -1,32 +1,43 @@
-import { Route, Routes } from "react-router-dom";
-import Navbar from "./components/Navbar";
-import Home from "./page/Home";
-import CreateTodo from "./page/CreateTodo";
-import Signup from "./components/Signup";
-import SignIn from "./components/SignIn";
-import Lists from "./page/Lists";
-import UserProfile from "./page/UserProfile";
-import NotFound from "./components/NotFound";
-import GenAi from "./page/GenAi";
-import UpdateProfile from "./page/UpdateProfile";
+import { useState } from "react"
+import { Route, Routes, Navigate } from "react-router-dom"
+import Header from "./components/Header"
+import Footer from "./components/Footer"
+import AuthModal from "./components/AuthModal"
+import LandingPage from "./page/LandingPage"
+import CreateTodo from "./page/CreateTodo"
+import Lists from "./page/Lists"
+import UserProfile from "./page/UserProfile"
+import NotFound from "./components/NotFound"
+import GenAi from "./page/GenAi"
+import UpdateProfile from "./page/UpdateProfile"
 
 function App() {
+  const [authModalOpen, setAuthModalOpen] = useState(false)
+
   return (
-    <main className="app">
-      <Navbar />
+    <div className="min-h-screen flex flex-col">
+      <Header onOpenAuth={() => setAuthModalOpen(true)} />
+      <main className="flex-1">
         <Routes>
-          <Route index element={<Home />} />
+          <Route
+            index
+            element={<LandingPage onOpenAuth={() => setAuthModalOpen(true)} />}
+          />
           <Route path="/create" element={<CreateTodo />} />
-          <Route path="/register" element={<Signup/> } />
-          <Route path="/login" element={<SignIn/> } />
-          <Route path="/lists" element={<Lists /> } />
-          <Route path="/genai" element={<GenAi /> } />
-          <Route path='/user-profile/:uid' element={<UserProfile /> } />
-          <Route path='/update-profile/:uid' element={<UpdateProfile /> } />
-          <Route path='/*' element={<NotFound /> } />
+          <Route path="/lists" element={<Lists />} />
+          <Route path="/genai" element={<GenAi />} />
+          <Route path="/user-profile/:uid" element={<UserProfile />} />
+          <Route path="/update-profile/:uid" element={<UpdateProfile />} />
+          {/* Redirect old auth routes to home with modal */}
+          <Route path="/login" element={<Navigate to="/" replace />} />
+          <Route path="/register" element={<Navigate to="/" replace />} />
+          <Route path="/*" element={<NotFound />} />
         </Routes>
-    </main>
-  );
+      </main>
+      <Footer />
+      <AuthModal open={authModalOpen} onOpenChange={setAuthModalOpen} />
+    </div>
+  )
 }
 
-export default App;
+export default App

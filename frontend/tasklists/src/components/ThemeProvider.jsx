@@ -1,15 +1,16 @@
-import React from 'react'
+import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 
 const ThemeProvider = ({ children }) => {
-    const { theme } = useSelector(state => state.theme);
-  return (
-    <div className={theme}>
-      <div className={`bg-[#e0dfff] text-slate-800 dark:text-gray-800 dark:bg-[#12113b] min-h-screen`}>
-        {children}
-      </div>
-    </div>
-  )
+  const { theme } = useSelector(state => state.theme)
+
+  useEffect(() => {
+    const root = window.document.documentElement
+    root.classList.remove('light', 'dark')
+    root.classList.add(theme)
+  }, [theme])
+
+  return <>{children}</>
 }
 
 export default ThemeProvider

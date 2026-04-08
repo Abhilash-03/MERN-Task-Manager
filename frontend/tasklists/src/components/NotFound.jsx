@@ -1,14 +1,32 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link } from "react-router-dom"
+import { Home, ArrowLeft } from "lucide-react"
+import { Button } from "@/components/ui/button"
 
 const NotFound = () => {
   return (
-    <div className='w-full flex flex-col justify-center items-center my-40 max-w-3xl mx-auto dark:bg-slate-800 bg-[#96baf5] rounded-xl py-10 overflow-hidden'>
-      <h1 className='text-8xl font-bold font-tf text-red-600'>404</h1>
-      <p className='text-4xl font-serif font-bold text-blue-500 py-3'>Page not found</p>
-      <Link to={'/'} className='pt-4'>
-         <button className='px-3 py-4 bg-gray-600 text-gray-200 rounded-xl font-serif text-lg font-bold hover:bg-gray-700 shadow-hovershd focus:shadow-shd'>Homepage</button>
-      </Link>
+    <div className="container flex flex-col items-center justify-center min-h-[60vh] text-center px-4">
+      <div className="space-y-6">
+        <h1 className="text-8xl font-bold text-primary">404</h1>
+        <div className="space-y-2">
+          <h2 className="text-2xl font-semibold">Page not found</h2>
+          <p className="text-muted-foreground max-w-md">
+            Sorry, we couldn't find the page you're looking for. It might have been
+            moved or doesn't exist.
+          </p>
+        </div>
+        <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <Button asChild>
+            <Link to="/">
+              <Home className="mr-2 h-4 w-4" />
+              Go to Homepage
+            </Link>
+          </Button>
+          <Button variant="outline" onClick={() => window.history.back()}>
+            <ArrowLeft className="mr-2 h-4 w-4" />
+            Go Back
+          </Button>
+        </div>
+      </div>
     </div>
   )
 }

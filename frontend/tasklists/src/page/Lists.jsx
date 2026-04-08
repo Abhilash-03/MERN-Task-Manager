@@ -1,148 +1,250 @@
-import { Alert, Button, Dropdown, Toast } from 'flowbite-react';
-import React, { useCallback, useEffect, useState } from 'react'
-import { HiCheck, HiInformationCircle } from 'react-icons/hi';
-import { useDispatch, useSelector } from 'react-redux'
-import {  filterTodo, getTodoFailure, getTodos } from '../redux/todo/todoSlice';
-import { Link, useNavigate } from 'react-router-dom';
-import api from '../axios/axios'
-import Cards from '../components/Cards';
-import { MdCreateNewFolder, MdOutlinePendingActions } from "react-icons/md";
-import { FaCheck, FaHeart, FaLeaf, FaRunning } from 'react-icons/fa';
-import { logoutSuccess } from '../redux/user/userSlice';
-const customTheme = {
-  base: "flex md:max-w-xl max-w-md items-center rounded-lg md:p-4 p-1 text-gray-500 shadow dark:text-gray-400",
-  floating: {
-    style: {
-      auto: "border border-gray-200 bg-indigo-400 text-gray-800 dark:border-none dark:bg-gray-800 dark:text-white"
-    }
-  }
-}
+import { useCallback, useEffect, useState } from "react"
+import { Link, useNavigate } from "react-router-dom"
+import { useDispatch, useSelector } from "react-redux"
+import {
+  ListTodo,
+  Clock,
+  CheckCircle2,
+  PlayCircle,
+  Heart,
+  Plus,
+  AlertCircle,
+  CheckCheck,
+} from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent } from "@/components/ui/card"
+import Cards from "@/components/Cards"
+import { filterTodo, getTodoFailure, getTodos } from "@/redux/todo/todoSlice"
+import { logoutSuccess } from "@/redux/user/userSlice"
+import api from "@/axios/axios"
+import { cn } from "@/lib/utils"
+
+const filterOptions = [
+  { id: "all", label: "All", icon: ListTodo },
+  { id: "pending", label: "Pending", icon: Clock },
+  { id: "in-working", label: "In Progress", icon: PlayCircle },
+  { id: "completed", label: "Completed", icon: CheckCircle2 },
+  { id: "favourite", label: "Favorites", icon: Heart },
+]
 
 const Lists = () => {
-    const { lists, error, filteredTodo } = useSelector(state => state.todo);
-    const { currentUser } = useSelector(state => state.user);
-    const [message, setMessage] = useState('');
-    const dispatch = useDispatch();
-    const navigate = useNavigate()
-    const [filterName, setFilterName] = useState('all');
+  const { lists, error, filteredTodo } = useSelector((state) => state.todo)
+  const { currentUser } = useSelector((state) => state.user)
+  const [message, setMessage] = useState("")
+  const [filterName, setFilterName] = useState("all")
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
 
-    const handleGetTodos = useCallback(() => {
-      dispatch(getTodoFailure(null))
-      const getAllItems = async() => {
-        setTimeout(() => {
-          if(currentUser === null) {
-            navigate('/login')
-          }
-        }, 1000)
-        try {
-          const res = await api.get('/api/v2/todos');
-          if(res.status === 200){
-            dispatch(getTodos(res?.data?.getTodo));
-          } else{
-            dispatch(getTodoFailure(res?.data.msg))
-          }
-          
-        } catch (error) {
-          dispatch(getTodoFailure(error.res?.data.msg))
-          if(error.response?.status === 401) {
-            dispatch(logoutSuccess())
-            navigate('/login');
-          }
+  const handleGetTodos = useCallback(() => {
+    dispatch(getTodoFailure(null))
+    const getAllItems = async () => {
+      if (!currentUser) {
+        navigate("/")
+        return
+      }
+      try {
+        const res = await api.get("/api/v2/todos")
+        if (res.status === 200) {
+          dispatch(getTodos(res?.data?.getTodo))
+        } else {
+          dispatch(getTodoFailure(res?.data.msg))
+        }
+      } catch (error) {
+        dispatch(getTodoFailure(error.res?.data.msg))
+        if (error.response?.status === 401) {
+          dispatch(logoutSuccess())
+          navigate("/")
         }
       }
-  
-      getAllItems();
-    }, [dispatch, currentUser, navigate])
-
-    
-    const filterTodos = (type) => {
-      dispatch(filterTodo({ type }))
-      setFilterName(type);
     }
+    getAllItems()
+  }, [dispatch, currentUser, navigate])
 
-    useEffect(() => {
-      handleGetTodos();
-      filterTodos(filterName);
-    }, [filterName])
+  const handleFilterChange = (type) => {
+    dispatch(filterTodo({ type }))
+    setFilterName(type)
+  }
 
-    setTimeout(() => {
-      dispatch(getTodoFailure(null))
-    }, 1200);
+  useEffect(() => {
+    handleGetTodos()
+  }, [handleGetTodos])
 
+  useEffect(() => {
+    handleFilterChange(filterName)
+  }, [filterName, lists])
+
+  setTimeout(() => {
+    dispatch(getTodoFailure(null))
+    setMessage("")
+  }, 3000)
+
+  const displayedTasks = filterName === "all" ? lists : filteredTodo
+
+  // Redirect if not logged in
+  if (!currentUser) {
+    navigate("/")
+    return null
+  }
 
   return (
-    <>
-    {error &&  <Alert color="failure" icon={HiInformationCircle} className='font-semibold font-serif'>
-    <span className="font-semibold font-tf">Info alert!</span> {error.name}.
-  </Alert>}
-    <h1 className='font-tf md:text-5xl text-4xl font-bold text-center mt-2 text-purple-800 dark:text-purple-500'><span className='capitalize'>{filterName}</span> [{filteredTodo.length}]</h1>
-    <Button.Group className='justify-center mt-10 font-tf font-semibold md:flex hidden'>
-      <Button color="purple"  onClick={() => filterTodos('all')}>
-        <FaLeaf className="mr-3 h-4 w-4" />
-        All
-      </Button>
-      <Button color="purple" onClick={() => filterTodos('pending')}>
-        <MdOutlinePendingActions className="mr-3 h-4 w-4" />
-        Pending
-      </Button>
-      <Button color="purple" onClick={() => filterTodos('completed')}>
-        <FaCheck className="mr-3 h-4 w-4" />
-        Completed
-      </Button>
-      <Button color="purple" onClick={() => filterTodos('in-working')}>
-        <FaRunning className="mr-3 h-4 w-4" />
-        In-working
-      </Button>
-      <Button color="purple" onClick={() => filterTodos('favourite')}>
-        <FaHeart className="mr-3 h-4 w-4" />
-        Favourite
-      </Button>
-    </Button.Group>
-<div className='md:hidden flex items-center justify-center mt-3 font-serif'>
-    <Dropdown label={filterName.toUpperCase()} gradientDuoTone={'purpleToBlue'} theme={customTheme} pill>
-      <Dropdown.Item icon={FaLeaf} className="font-tf" onClick={() => filterTodos('all')}>All</Dropdown.Item>
-      <Dropdown.Item icon={MdOutlinePendingActions} className="font-tf" onClick={() => filterTodos('pending')}>Pending</Dropdown.Item>
-      <Dropdown.Item icon={FaRunning} className="font-tf" onClick={() => filterTodos('in-working')}>In-working</Dropdown.Item>
-      <Dropdown.Item icon={FaCheck} className="font-tf" onClick={() => filterTodos('completed')}>Completed</Dropdown.Item>
-      <Dropdown.Divider />
-      <Dropdown.Item icon={FaHeart} className="font-tf" onClick={() => filterTodos('favourite')}>Favourite</Dropdown.Item>
-    </Dropdown>
-    </div>
-  { message &&
-      <Toast className='mx-auto' theme={customTheme}>
-      <div className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-green-100 text-green-500 dark:bg-green-800 dark:text-green-200">
-        <HiCheck className="h-5 w-5" />
-      </div>
-      <div className="ml-3 text-sm font-semibold font-tf text-green-400">{message}</div>
-      <Toast.Toggle />
-    </Toast>
-  }
-    <section className={`grid grid-cols-1 gap-3 lg:gap-5 md:grid-cols-2 lg:grid-cols-3 mx-5 my-10 ${lists.length > 0 && "h-[65vh]"} overflow-y-auto overflow-x-hidden px-3`}>
-      {filterName === 'all'?
-         lists.map(todo => (
-          <Cards key={todo._id} todo={todo} setMessage={setMessage} handleGetTodos={handleGetTodos} />
-          
-        ))
-        :
-        filteredTodo.map(todo => (
-        <Cards key={todo._id} todo={todo} setMessage={setMessage} handleGetTodos={handleGetTodos} />
-        ))
-      }
-
-    </section>
-    {
-      lists.length === 0 && (
-        <div className='flex items-center justify-center bg-[#7c7ced] sm:w-3/4 w-full mx-auto py-4 flex-col shadow-shd dark:shadow-lg dark:bg-pink-500 rounded-2xl'>
-        <h1 className='sm:text-2xl text-lg font-bold font-tf flex items-center justify-center p-3 text-gray-800'>Todo list is empty, create a new one.</h1>
-        <Link to={'/create'}>
-        <Button  gradientMonochrome="purple" className='my-4 font-tf font-bold' size={'lg'} pill>
-          <MdCreateNewFolder className="mr-2 h-5 w-5" />
-        Create</Button>
-        </Link>
+    <div className="container py-8 px-4 md:px-6">
+      {/* Page Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
+        <div>
+          <h1 className="text-3xl font-bold tracking-tight">My Tasks</h1>
+          <p className="text-muted-foreground mt-1">
+            Manage and track all your tasks in one place
+          </p>
         </div>
-      )
-    }
-    </>
+        <Button asChild>
+          <Link to="/create">
+            <Plus className="mr-2 h-4 w-4" />
+            New Task
+          </Link>
+        </Button>
+      </div>
+
+      {/* Alerts */}
+      {error && (
+        <div className="mb-6 flex items-center gap-2 rounded-lg border border-destructive/50 bg-destructive/10 p-4 text-destructive">
+          <AlertCircle className="h-5 w-5" />
+          <p className="text-sm font-medium">{error}</p>
+        </div>
+      )}
+
+      {message && (
+        <div className="mb-6 flex items-center gap-2 rounded-lg border border-green-500/50 bg-green-500/10 p-4 text-green-600 dark:text-green-400">
+          <CheckCheck className="h-5 w-5" />
+          <p className="text-sm font-medium">{message}</p>
+        </div>
+      )}
+
+      {/* Stats Cards */}
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 mb-8">
+        <Card>
+          <CardContent className="p-4">
+            <div className="flex items-center gap-4">
+              <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center">
+                <ListTodo className="h-5 w-5 text-primary" />
+              </div>
+              <div>
+                <p className="text-2xl font-bold">{lists.length}</p>
+                <p className="text-sm text-muted-foreground">Total Tasks</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardContent className="p-4">
+            <div className="flex items-center gap-4">
+              <div className="h-10 w-10 rounded-full bg-yellow-500/10 flex items-center justify-center">
+                <Clock className="h-5 w-5 text-yellow-500" />
+              </div>
+              <div>
+                <p className="text-2xl font-bold">
+                  {lists.filter((t) => t.status === "pending").length}
+                </p>
+                <p className="text-sm text-muted-foreground">Pending</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardContent className="p-4">
+            <div className="flex items-center gap-4">
+              <div className="h-10 w-10 rounded-full bg-blue-500/10 flex items-center justify-center">
+                <PlayCircle className="h-5 w-5 text-blue-500" />
+              </div>
+              <div>
+                <p className="text-2xl font-bold">
+                  {lists.filter((t) => t.status === "in-working").length}
+                </p>
+                <p className="text-sm text-muted-foreground">In Progress</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardContent className="p-4">
+            <div className="flex items-center gap-4">
+              <div className="h-10 w-10 rounded-full bg-green-500/10 flex items-center justify-center">
+                <CheckCircle2 className="h-5 w-5 text-green-500" />
+              </div>
+              <div>
+                <p className="text-2xl font-bold">
+                  {lists.filter((t) => t.status === "completed").length}
+                </p>
+                <p className="text-sm text-muted-foreground">Completed</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Filter Tabs */}
+      <div className="flex flex-wrap gap-2 mb-6">
+        {filterOptions.map((filter) => (
+          <Button
+            key={filter.id}
+            variant={filterName === filter.id ? "default" : "outline"}
+            size="sm"
+            onClick={() => setFilterName(filter.id)}
+            className={cn(
+              "transition-all",
+              filterName === filter.id && "shadow-md"
+            )}
+          >
+            <filter.icon className="mr-2 h-4 w-4" />
+            {filter.label}
+            {filter.id === "all" && (
+              <span className="ml-2 rounded-full bg-primary-foreground/20 px-2 py-0.5 text-xs">
+                {lists.length}
+              </span>
+            )}
+          </Button>
+        ))}
+      </div>
+
+      {/* Task Grid */}
+      {displayedTasks.length > 0 ? (
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {[...displayedTasks].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).map((todo) => (
+            <Cards
+              key={todo._id}
+              todo={todo}
+              setMessage={setMessage}
+              handleGetTodos={handleGetTodos}
+            />
+          ))}
+        </div>
+      ) : (
+        <Card className="py-16">
+          <CardContent className="flex flex-col items-center justify-center text-center">
+            <div className="h-16 w-16 rounded-full bg-muted flex items-center justify-center mb-4">
+              <ListTodo className="h-8 w-8 text-muted-foreground" />
+            </div>
+            <h3 className="text-lg font-semibold mb-2">
+              {filterName === "all"
+                ? "No tasks yet"
+                : `No ${filterName} tasks`}
+            </h3>
+            <p className="text-muted-foreground mb-4">
+              {filterName === "all"
+                ? "Create your first task to get started"
+                : `You don't have any ${filterName} tasks`}
+            </p>
+            {filterName === "all" && (
+              <Button asChild>
+                <Link to="/create">
+                  <Plus className="mr-2 h-4 w-4" />
+                  Create Task
+                </Link>
+              </Button>
+            )}
+          </CardContent>
+        </Card>
+      )}
+    </div>
   )
 }
 
