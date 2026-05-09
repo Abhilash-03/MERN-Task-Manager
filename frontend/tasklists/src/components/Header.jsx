@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { Link, useLocation, useNavigate } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
-import { Menu, X, Sun, Moon, LogOut, User, LayoutDashboard, CheckSquare } from "lucide-react"
+import { Menu, X, Sun, Moon, LogOut, User, LayoutDashboard, CheckSquare, CalendarDays } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import {
@@ -40,6 +40,7 @@ const Header = ({ onOpenAuth }) => {
     ? [
         { name: "My Tasks", path: "/lists" },
         { name: "Create Task", path: "/create" },
+        { name: "Calendar", path: "/calendar" },
       ]
     : []
 
@@ -136,6 +137,12 @@ const Header = ({ onOpenAuth }) => {
                   <Link to="/lists" className="cursor-pointer">
                     <LayoutDashboard className="mr-2 h-4 w-4" />
                     Dashboard
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link to="/calendar" className="cursor-pointer">
+                    <CalendarDays className="mr-2 h-4 w-4" />
+                    Calendar
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />

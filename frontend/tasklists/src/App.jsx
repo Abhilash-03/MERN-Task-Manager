@@ -6,6 +6,7 @@ import AuthModal from "./components/AuthModal"
 import LandingPage from "./page/LandingPage"
 import CreateTodo from "./page/CreateTodo"
 import Lists from "./page/Lists"
+import CalendarPage from "./page/CalendarPage"
 import UserProfile from "./page/UserProfile"
 import NotFound from "./components/NotFound"
 import GenAi from "./page/GenAi"
@@ -25,6 +26,7 @@ function App() {
           />
           <Route path="/create" element={<CreateTodo />} />
           <Route path="/lists" element={<Lists />} />
+          <Route path="/calendar" element={<CalendarPage />} />
           <Route path="/genai" element={<GenAi />} />
           <Route path="/user-profile/:uid" element={<UserProfile />} />
           <Route path="/update-profile/:uid" element={<UpdateProfile />} />

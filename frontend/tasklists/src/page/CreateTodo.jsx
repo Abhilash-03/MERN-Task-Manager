@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
+import { format } from "date-fns"
 import { 
   PenLine, 
   Plus, 
@@ -21,13 +22,17 @@ import {
   Clock,
   TrendingUp,
   ChevronDown,
-  ChevronUp
+  ChevronUp,
+  CalendarIcon
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Calendar } from "@/components/ui/calendar"
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
+import { TimePicker } from "@/components/ui/time-picker"
 import TodoList from "@/components/TodoList"
 import { addTodo, addTodoFailure } from "@/redux/todo/todoSlice"
 import api from "@/axios/axios"
@@ -35,6 +40,8 @@ import { cn } from "@/lib/utils"
 
 const CreateTodo = () => {
   const [newTodo, setNewTodo] = useState({ name: "", notes: "" })
+  const [dueDate, setDueDate] = useState(null)
+  const [dueTime, setDueTime] = useState("")
   const [message, setMessage] = useState("")
   const [isFocused, setIsFocused] = useState(false)
   const [aiPrompt, setAiPrompt] = useState("")
@@ -173,11 +180,18 @@ const CreateTodo = () => {
     setMessage("")
     try {
       dispatch(addTodoFailure(null))
-      const response = await api.post("/api/v2/todos", newTodo)
+      const todoData = { 
+        ...newTodo,
+        dueDate: dueDate ? dueDate.toISOString() : null,
+        dueTime: dueTime || null
+      }
+      const response = await api.post("/api/v2/todos", todoData)
       if (response.status === 201) {
         dispatch(addTodo(response?.data?.todoList))
         setMessage(response?.data?.msg)
         setNewTodo({ name: "", notes: "" })
+        setDueDate(null)
+        setDueTime("")
         setSubtasks([])
       } else {
         dispatch(addTodoFailure(response?.data?.msg))
@@ -409,6 +423,50 @@ const CreateTodo = () => {
                             "resize-none transition-colors"
                           )}
                         />
+                      </div>
+
+                      {/* Due Date & Time */}
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div className="space-y-2 sm:space-y-3">
+                          <Label className="flex items-center gap-2 text-sm sm:text-base font-medium">
+                            <CalendarIcon className="h-4 w-4 text-primary" />
+                            Due Date
+                            <span className="text-muted-foreground text-xs sm:text-sm font-normal">(optional)</span>
+                          </Label>
+                          <Popover>
+                            <PopoverTrigger asChild>
+                              <Button
+                                variant="outline"
+                                className={cn(
+                                  "w-full h-12 justify-start text-left font-normal rounded-xl",
+                                  !dueDate && "text-muted-foreground"
+                                )}
+                              >
+                                <CalendarIcon className="mr-2 h-4 w-4" />
+                                {dueDate ? format(dueDate, "PPP") : "Pick a date"}
+                              </Button>
+                            </PopoverTrigger>
+                            <PopoverContent className="w-auto p-0" align="start">
+                              <Calendar
+                                mode="single"
+                                selected={dueDate}
+                                onSelect={setDueDate}
+                                initialFocus
+                              />
+                            </PopoverContent>
+                          </Popover>
+                        </div>
+                        <div className="space-y-2 sm:space-y-3">
+                          <Label className="flex items-center gap-2 text-sm sm:text-base font-medium">
+                            <Clock className="h-4 w-4 text-primary" />
+                            Due Time
+                            <span className="text-muted-foreground text-xs sm:text-sm font-normal">(optional)</span>
+                          </Label>
+                          <TimePicker
+                            value={dueTime}
+                            onChange={setDueTime}
+                          />
+                        </div>
                       </div>
 
                       {/* Action Buttons */}

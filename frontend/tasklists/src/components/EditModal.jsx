@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { useDispatch } from "react-redux"
-import { Loader2, Scissors, AlertCircle } from "lucide-react"
+import { format, parseISO } from "date-fns"
+import { Loader2, Scissors, AlertCircle, CalendarIcon, Clock } from "lucide-react"
 import {
   Dialog,
   DialogContent,
@@ -12,6 +13,9 @@ import {
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { Calendar } from "@/components/ui/calendar"
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
+import { TimePicker } from "@/components/ui/time-picker"
 import { updateTodoFailure } from "@/redux/todo/todoSlice"
 import api from "@/axios/axios"
 import { cn } from "@/lib/utils"
@@ -22,6 +26,8 @@ const EditModal = ({ setOpenModal, openModal, todo, setMessage, handleGetTodos }
     notes: todo.notes,
     status: todo.status,
   })
+  const [dueDate, setDueDate] = useState(todo.dueDate ? parseISO(todo.dueDate) : null)
+  const [dueTime, setDueTime] = useState(todo.dueTime || "")
   const [loading, setLoading] = useState(false)
   const [breakdownLoading, setBreakdownLoading] = useState(false)
   const [breakdownError, setBreakdownError] = useState("")
@@ -34,12 +40,19 @@ const EditModal = ({ setOpenModal, openModal, todo, setMessage, handleGetTodos }
       notes: todo.notes,
       status: todo.status,
     })
+    setDueDate(todo.dueDate ? parseISO(todo.dueDate) : null)
+    setDueTime(todo.dueTime || "")
   }
 
   const handleUpdateTodo = async (id) => {
     setLoading(true)
     try {
-      const response = await api.patch(`/api/v2/todos/${id}`, editFormData)
+      const updateData = {
+        ...editFormData,
+        dueDate: dueDate ? dueDate.toISOString() : null,
+        dueTime: dueTime || null
+      }
+      const response = await api.patch(`/api/v2/todos/${id}`, updateData)
       if (response) {
         handleGetTodos()
         setMessage(response.data.msg)
@@ -152,6 +165,48 @@ const EditModal = ({ setOpenModal, openModal, todo, setMessage, handleGetTodos }
               <option value="in-working">In Progress</option>
               <option value="completed">Completed</option>
             </select>
+          </div>
+
+          {/* Due Date & Time */}
+          <div className="grid grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <Label className="flex items-center gap-2">
+                <CalendarIcon className="h-4 w-4 text-primary" />
+                Due Date
+              </Label>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="outline"
+                    className={cn(
+                      "w-full justify-start text-left font-normal",
+                      !dueDate && "text-muted-foreground"
+                    )}
+                  >
+                    <CalendarIcon className="mr-2 h-4 w-4" />
+                    {dueDate ? format(dueDate, "PPP") : "Pick a date"}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="start">
+                  <Calendar
+                    mode="single"
+                    selected={dueDate}
+                    onSelect={setDueDate}
+                    initialFocus
+                  />
+                </PopoverContent>
+              </Popover>
+            </div>
+            <div className="space-y-2">
+              <Label className="flex items-center gap-2">
+                <Clock className="h-4 w-4 text-primary" />
+                Due Time
+              </Label>
+              <TimePicker
+                value={dueTime}
+                onChange={setDueTime}
+              />
+            </div>
           </div>
 
           {/* AI Breakdown Button */}
