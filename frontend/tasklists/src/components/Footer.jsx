@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom"
-import { Sparkles, Heart } from "lucide-react"
+import { CheckSquare, Heart } from "lucide-react"
 
 const Footer = () => {
   const currentYear = new Date().getFullYear()
@@ -11,7 +11,7 @@ const Footer = () => {
           {/* Brand */}
           <Link to="/" className="flex items-center gap-2 group">
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-primary to-primary/70 shadow-md shadow-primary/20 group-hover:shadow-primary/40 transition-shadow">
-              <Sparkles className="h-4 w-4 text-primary-foreground" />
+              <CheckSquare className="h-4 w-4 text-primary-foreground" />
             </div>
             <span className="text-lg font-bold bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text">
               Task Manager

@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { Link, useLocation, useNavigate } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
-import { Menu, X, Sun, Moon, LogOut, User, LayoutDashboard, Sparkles } from "lucide-react"
+import { Menu, X, Sun, Moon, LogOut, User, LayoutDashboard, CheckSquare } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import {
@@ -49,11 +49,11 @@ const Header = ({ onOpenAuth }) => {
     <header className="sticky top-0 z-50 w-full border-b bg-background/80 backdrop-blur-md supports-[backdrop-filter]:bg-background/60">
       <nav className="container mx-auto flex h-16 items-center justify-between px-4 md:px-6">
         {/* Logo */}
-        <Link to="/" className="flex items-center space-x-2">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary">
-            <Sparkles className="h-5 w-5 text-primary-foreground" />
+        <Link to="/" className="flex items-center space-x-2 group">
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-primary to-primary/70 shadow-md shadow-primary/20 group-hover:shadow-primary/40 transition-shadow">
+            <CheckSquare className="h-5 w-5 text-primary-foreground" />
           </div>
-          <span className="text-xl font-bold">Task Manager</span>
+          <span className="text-xl font-bold bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text">Task Manager</span>
         </Link>
 
         {/* Desktop Navigation */}
