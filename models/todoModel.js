@@ -18,6 +18,18 @@ const todoSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
+    dueDate: {
+        type: Date,
+        default: null
+    },
+    dueTime: {
+        type: String,
+        default: null
+    },
+    reminder: {
+        type: Boolean,
+        default: false
+    },
     createdBy: {
         type: mongoose.Types.ObjectId,
         ref: 'User',

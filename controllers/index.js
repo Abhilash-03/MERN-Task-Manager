@@ -84,11 +84,47 @@ const favouriteTodo = async(req, res) => {
 
 }
 
+// Get tasks for calendar view by date range
+const getTasksByDateRange = async(req, res) => {
+    const { startDate, endDate } = req.query;
+    const userId = req.user.userId;
+
+    const query = { createdBy: userId };
+
+    if (startDate && endDate) {
+        query.dueDate = {
+            $gte: new Date(startDate),
+            $lte: new Date(endDate)
+        };
+    } else if (startDate) {
+        query.dueDate = { $gte: new Date(startDate) };
+    } else if (endDate) {
+        query.dueDate = { $lte: new Date(endDate) };
+    }
+
+    const tasks = await Todo.find(query).sort({ dueDate: 1 });
+    res.status(200).json({ tasks, count: tasks.length });
+}
+
+// Get tasks with due dates for calendar
+const getCalendarTasks = async(req, res) => {
+    const userId = req.user.userId;
+    
+    const tasks = await Todo.find({ 
+        createdBy: userId, 
+        dueDate: { $ne: null } 
+    }).sort({ dueDate: 1 });
+    
+    res.status(200).json({ tasks, count: tasks.length });
+}
+
 module.exports = {
     getAllTodo,
     getTodo,
     createTodo,
     updateTodo,
     deleteTodo,
-    favouriteTodo
+    favouriteTodo,
+    getTasksByDateRange,
+    getCalendarTasks
 }
