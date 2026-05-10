@@ -9,9 +9,17 @@ import {
   PlayCircle,
   Loader2,
   FileText,
+  CalendarDays,
+  Eye,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog"
 import {
   addFavouriteFailure,
   deleteTodo,
@@ -42,6 +50,7 @@ const statusConfig = {
 const Cards = ({ todo, setMessage, handleGetTodos }) => {
   const [loading, setLoading] = useState(false)
   const [openModal, setOpenModal] = useState(false)
+  const [viewDetails, setViewDetails] = useState(false)
   const dispatch = useDispatch()
 
   const status = statusConfig[todo.status] || statusConfig.pending
@@ -131,15 +140,39 @@ const Cards = ({ todo, setMessage, handleGetTodos }) => {
           </div>
         </CardHeader>
 
-        <CardContent>
+        <CardContent className="space-y-3">
+          {/* Due Date & Time */}
+          {todo.dueDate && (
+            <div className="flex items-center gap-2 text-sm">
+              <CalendarDays className="h-4 w-4 text-primary" />
+              <span className="text-muted-foreground">
+                Due: {new Date(todo.dueDate).toLocaleDateString("en-US", {
+                  month: "short",
+                  day: "numeric",
+                  year: "numeric",
+                })}
+                {todo.dueTime && ` at ${todo.dueTime}`}
+              </span>
+            </div>
+          )}
+
           {/* Notes */}
           {todo.notes && (
             <div className="bg-muted/50 rounded-lg p-3">
-              <div className="flex items-center gap-1.5 text-xs text-muted-foreground mb-2">
-                <FileText className="h-3 w-3" />
-                Notes
+              <div className="flex items-center justify-between mb-2">
+                <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
+                  <FileText className="h-3 w-3" />
+                  Notes
+                </div>
+                <button
+                  onClick={() => setViewDetails(true)}
+                  className="flex items-center gap-1 text-xs text-primary hover:underline font-medium"
+                >
+                  <Eye className="h-3 w-3" />
+                  View
+                </button>
               </div>
-              <p className="text-sm text-muted-foreground line-clamp-3">
+              <p className="text-sm text-muted-foreground line-clamp-2">
                 {todo.notes}
               </p>
             </div>
@@ -182,6 +215,74 @@ const Cards = ({ todo, setMessage, handleGetTodos }) => {
           handleGetTodos={handleGetTodos}
         />
       )}
+
+      {/* View Details Dialog */}
+      <Dialog open={viewDetails} onOpenChange={setViewDetails}>
+        <DialogContent className="sm:max-w-[500px] max-h-[80vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle className="text-xl">{todo.name}</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4 pt-2">
+            {/* Status */}
+            <div className="flex items-center gap-2">
+              <span className="text-sm text-muted-foreground">Status:</span>
+              <div
+                className={cn(
+                  "inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium",
+                  status.className
+                )}
+              >
+                <status.icon className="h-3.5 w-3.5" />
+                {status.label}
+              </div>
+            </div>
+
+            {/* Created Date */}
+            <div className="flex items-center gap-2 text-sm">
+              <Clock className="h-4 w-4 text-muted-foreground" />
+              <span className="text-muted-foreground">Created:</span>
+              <span>
+                {new Date(todo.createdAt).toLocaleDateString("en-US", {
+                  month: "short",
+                  day: "numeric",
+                  year: "numeric",
+                })}
+              </span>
+            </div>
+
+            {/* Due Date */}
+            {todo.dueDate && (
+              <div className="flex items-center gap-2 text-sm">
+                <CalendarDays className="h-4 w-4 text-primary" />
+                <span className="text-muted-foreground">Due:</span>
+                <span>
+                  {new Date(todo.dueDate).toLocaleDateString("en-US", {
+                    month: "short",
+                    day: "numeric",
+                    year: "numeric",
+                  })}
+                  {todo.dueTime && ` at ${todo.dueTime}`}
+                </span>
+              </div>
+            )}
+
+            {/* Notes */}
+            {todo.notes && (
+              <div className="space-y-2">
+                <div className="flex items-center gap-1.5 text-sm font-medium">
+                  <FileText className="h-4 w-4" />
+                  Notes
+                </div>
+                <div className="bg-muted/50 rounded-lg p-4">
+                  <p className="text-sm whitespace-pre-wrap break-words">
+                    {todo.notes}
+                  </p>
+                </div>
+              </div>
+            )}
+          </div>
+        </DialogContent>
+      </Dialog>
     </>
   )
 }
