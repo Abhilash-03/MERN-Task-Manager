@@ -5,7 +5,36 @@ This is a Task Manager app that allows users to create, read, update delete, and
 ## Project Preview Link
 [🔗 Task Manager Project Link](https://todolist-views.vercel.app/)
 
-## --UPDATED V-3 (Latest)--
+## --UPDATED V-4 (Latest)--
+
+### Calendar Integration & Time Management
+
+1. **Full Calendar View:**
+   - Monthly calendar grid to visualize tasks by due date
+   - Color-coded task status indicators (Pending, In Progress, Completed)
+   - Click any date to view scheduled tasks
+   - Navigation controls (prev/next month, today button)
+
+2. **Due Date & Time Picker:**
+   - Set due dates when creating or editing tasks
+   - Custom scrollable time picker with 12-hour format (AM/PM)
+   - Month and year dropdown selectors for quick navigation
+
+3. **Enhanced Task Cards:**
+   - Due date and time display on task cards
+   - "View" button to see full task details in a modal
+   - Consistent card layout without UI shifts
+
+4. **New Calendar API Endpoints:**
+   - `/api/v2/todos/calendar` - Get all tasks with due dates
+   - `/api/v2/todos/calendar/range` - Get tasks by date range
+
+5. **UI/UX Improvements:**
+   - Updated header and footer icons with gradient styling
+   - New SVG favicon matching the app branding
+   - Calendar link added to navigation menu
+
+## --UPDATED V-3--
 
  - Update the entire UI/UX of app
  - Migrate CRA (create-react-app) to Vite
@@ -69,8 +98,8 @@ This is a Task Manager app that allows users to create, read, update delete, and
 
 - Users can sign up and log in with their email and password.
 - Google Authentication (OAuth) via Firebase.
-- Users can create tasks with a title and notes.
-- Users can view their tasks in a list.
+- Users can create tasks with a title, notes, due date and time.
+- Users can view their tasks in a list or calendar view.
 - Users can edit or delete their tasks.
 - Users can mark their tasks as completed, in-progress, or pending.
 - Users can log out from their account.
@@ -79,6 +108,7 @@ This is a Task Manager app that allows users to create, read, update delete, and
 - Task breakdown into subtasks using AI.
 - Daily motivational quotes.
 - User profile management with avatar upload.
+- Calendar integration for better time management.
 
 
 ## Installation
