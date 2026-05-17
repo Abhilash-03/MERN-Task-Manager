@@ -79,7 +79,7 @@ const LandingPage = ({ onOpenAuth }) => {
             </div>
 
             {/* Stats */}
-            <div className="grid grid-cols-3 gap-8 pt-8 border-t w-full max-w-lg">
+            {/* <div className="grid grid-cols-3 gap-8 pt-8 border-t w-full max-w-lg">
               <div className="text-center">
                 <div className="text-3xl font-bold text-primary">10K+</div>
                 <div className="text-sm text-muted-foreground">Active Users</div>
@@ -92,7 +92,7 @@ const LandingPage = ({ onOpenAuth }) => {
                 <div className="text-3xl font-bold text-primary">99%</div>
                 <div className="text-sm text-muted-foreground">Satisfaction</div>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </section>
